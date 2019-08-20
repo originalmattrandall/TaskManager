@@ -1,0 +1,19 @@
+class Person{
+    String name = "matt";
+}
+
+abstract class IRepo<T>{
+  void printName(t);
+}
+
+class PersonRepo implements IRepo<Person>{
+  String printName(p){
+    return PersonDAO.printName(p);
+  }
+}
+
+class PersonDAO {
+  static String printName(Person p){
+    return p.name;
+  }
+}
