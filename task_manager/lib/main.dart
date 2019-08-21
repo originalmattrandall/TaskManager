@@ -10,6 +10,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Task Manager',
       home: MyHomePage(title: 'To Do App'),
+      theme: ThemeData(
+        primaryColor: Color.fromRGBO(0, 35, 67, 1),
+        accentColor: Color.fromRGBO(0, 62, 120, 1),
+        backgroundColor: Color.fromRGBO(0, 35, 67, 1),
+      ),      
     );
   }
 }

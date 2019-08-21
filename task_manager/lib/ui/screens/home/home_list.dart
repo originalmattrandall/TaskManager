@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../widgets/general/search_bar.dart';
+import '../../widgets/general/mainmenu/menu_drawer.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -19,60 +21,19 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-  String dropdownValue = 'One';
+  String title = "To DO";
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Expanded(
-          flex: 1,
-          child: Column(
-            children: [
-              Expanded(
-                flex: 1,
-                child: Container(color: Colors.blue[300]),
-              ),
-              Expanded( // Settings icon
-                flex: 2,
-                child: Container(
-                  color: Colors.blue[200],
-                  alignment: Alignment.centerRight,
-                  child: Icon(Icons.settings)
-                ),
-              ),
-              Expanded( // Filter Drop down selection
-                flex: 2,
-                child: Container(color: Colors.blue[100]),
-              ),
-            ],
-          ),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: SearchBar(),
+          elevation: 0.0,          
         ),
-        Expanded( // Will Contain the List View
-          flex: 4,
-          child: ListView(
-            padding: EdgeInsets.all(8.0),
-            children: <Widget>[
-              Container(
-                height: 50,
-                color: Colors.amber[600],
-                child: const Center(child: Text('Entry A')),
-              ),
-              Container(
-                height: 50,
-                color: Colors.amber[500],
-                child: const Center(child: Text('Entry B')),
-              ),
-              Container(
-                height: 50,
-                color: Colors.amber[100],
-                child: const Center(child: Text('Entry C')),
-              ),
-            ],
-          ),
-        )
-      ],
+        drawer: MenuDrawer(),
+        body: Text("other stuff")
+      )
     );
   }
 }
