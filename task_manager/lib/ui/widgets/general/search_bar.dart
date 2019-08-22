@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../ui_colors.dart';
+import 'package:task_manager/ui/ui_colors.dart';
 
 class SearchBar extends StatefulWidget{
   @override
