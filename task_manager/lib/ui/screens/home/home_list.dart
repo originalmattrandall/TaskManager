@@ -1,18 +1,10 @@
 import 'package:flutter/material.dart';
-import '../../widgets/general/search_bar.dart';
-import '../../widgets/general/mainmenu/menu_drawer.dart';
+import 'package:task_manager/ui/widgets/general/search_bar.dart';
+import 'package:task_manager/ui/widgets/general/mainmenu/menu_drawer.dart';
+import 'package:task_manager/ui/ui_colors.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
 
   final String title;
 
@@ -21,7 +13,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String title = "To DO";
+
+  //These Values will come from the database later on
+  var _listItems = ["Show all Tasks and Groups", "All Tasks", "All Groups"];
+  String _currentFilter = "Show all Tasks and Groups";
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +27,45 @@ class _MyHomePageState extends State<MyHomePage> {
           elevation: 0.0,          
         ),
         drawer: MenuDrawer(),
-        body: Text("other stuff")
-      )
+        body: Column(
+          children: [
+            Theme( //TODO: Move this to its own widget class
+              data: Theme.of(context).copyWith(
+                canvasColor: UIColors.subMenuBlue
+              ),
+              child: Container(
+                color: UIColors.subMenuBlue,
+                child: Center(
+                  heightFactor: 1,
+                  child: DropdownButtonFormField<String>(
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsetsGeometry.lerp(EdgeInsets.all(0), EdgeInsets.all(1), 10),
+                    ),
+                    value: _currentFilter, //Value must exist in the list or it throws an error
+                    items: _listItems.map((String item){
+                      return DropdownMenuItem(
+                        value: item,
+                        child: Text(
+                          item,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                    onChanged: (String selectedFilter){
+                      setState(() {
+                        _currentFilter = selectedFilter;
+                      });
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
