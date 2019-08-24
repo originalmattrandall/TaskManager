@@ -28,7 +28,14 @@ class UIColors{
   static const MaterialColor offBlue = const MaterialColor(
     0xFF418CD1,
     const<int, Color>{
-      100: const Color(0xFF418CD1)
+      100: const Color(0xFF418CD1),
+    }
+  );
+
+  static const MaterialColor subMenuBlue = const MaterialColor(
+    0xFF004C92,
+    const<int, Color>{
+      100: const Color(0xFF004C92),
     }
   );
 }
