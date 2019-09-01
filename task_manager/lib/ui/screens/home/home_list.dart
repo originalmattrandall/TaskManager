@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:task_manager/ui/widgets/general/filter_dropdown.dart';
 import 'package:task_manager/ui/widgets/general/search_bar.dart';
 import 'package:task_manager/ui/widgets/general/mainmenu/menu_drawer.dart';
-import 'package:task_manager/ui/ui_colors.dart';
+import 'package:task_manager/ui/widgets/task/taskcard/task_card.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -13,11 +14,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-  //These Values will come from the database later on
-  var _listItems = ["Show all Tasks and Groups", "All Tasks", "All Groups"];
-  String _currentFilter = "Show all Tasks and Groups";
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -27,43 +23,18 @@ class _MyHomePageState extends State<MyHomePage> {
           elevation: 0.0,          
         ),
         drawer: MenuDrawer(),
-        body: Column(
-          children: [
-            Theme( //TODO: Move this to its own widget class
-              data: Theme.of(context).copyWith(
-                canvasColor: UIColors.subMenuBlue
-              ),
-              child: Container(
-                color: UIColors.subMenuBlue,
-                child: Center(
-                  heightFactor: 1,
-                  child: DropdownButtonFormField<String>(
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsetsGeometry.lerp(EdgeInsets.all(0), EdgeInsets.all(1), 10),
-                    ),
-                    value: _currentFilter, //Value must exist in the list or it throws an error
-                    items: _listItems.map((String item){
-                      return DropdownMenuItem(
-                        value: item,
-                        child: Text(
-                          item,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                    onChanged: (String selectedFilter){
-                      setState(() {
-                        _currentFilter = selectedFilter;
-                      });
-                    },
-                  ),
-                ),
-              ),
-            ),
-          ],
+        body: Scaffold(
+          backgroundColor: Theme.of(context).primaryColor,
+          body: Column(
+            children: [
+              FilterDropdown(),
+              TaskCard(
+                title: "test",
+                description: "Description of the task or thing someone is trying to keep track of.",
+                date: DateTime.now(),
+              ),                       
+            ],
+          ),
         ),
       ),
     );
