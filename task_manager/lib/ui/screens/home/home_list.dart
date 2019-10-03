@@ -4,16 +4,16 @@ import 'package:task_manager/ui/widgets/general/search_bar.dart';
 import 'package:task_manager/ui/widgets/general/mainmenu/menu_drawer.dart';
 import 'package:task_manager/ui/widgets/task/taskcard/task_card.dart';
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+class HomeList extends StatefulWidget {
+  HomeList({Key key, this.title}) : super(key: key);
 
   final String title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _HomeListState createState() => _HomeListState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _HomeListState extends State<HomeList> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(

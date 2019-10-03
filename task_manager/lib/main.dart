@@ -9,7 +9,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Task Manager',
-      home: MyHomePage(title: 'To Do App'),
+      home: HomeList(title: 'To Do App'),
       theme: ThemeData(
         primaryColor: Color.fromRGBO(0, 35, 67, 1),
         accentColor: Color.fromRGBO(0, 62, 120, 1),

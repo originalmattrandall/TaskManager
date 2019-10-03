@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:task_manager/ui/ui_colors.dart';
+import 'package:task_manager/ui/widgets/general/card_menu_button.dart';
 
 class TaskCard extends StatefulWidget {
 
@@ -13,6 +14,9 @@ class TaskCard extends StatefulWidget {
 }
 
 class _TaskCardState extends State<TaskCard> {
+
+  IconData completeIcon = Icons.check_box_outline_blank;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -92,17 +96,8 @@ class _TaskCardState extends State<TaskCard> {
                         onTap: (){
                           print("Open Task");
                         },
-                        child: Container(
-                          width: 30,
-                          height: 30,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: UIColors.offBlue,
-                          ),
-                          child: Icon(
-                            Icons.short_text,
-                            color: Colors.white,
-                          ),
+                        child: CardMenuButton(
+                          icon: Icons.short_text,
                         ),
                       ),
                     ),
@@ -112,17 +107,8 @@ class _TaskCardState extends State<TaskCard> {
                         onTap: (){
                           print("Delete Task");
                         },
-                        child: Container(
-                          width: 30,
-                          height: 30,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: UIColors.offBlue,
-                          ),
-                          child: Icon(
-                            Icons.remove_circle_outline,
-                            color: Colors.white,
-                          ),
+                        child: CardMenuButton(
+                          icon: Icons.remove_circle_outline,
                         ),
                       ),
                     ),
@@ -131,18 +117,12 @@ class _TaskCardState extends State<TaskCard> {
                       child: InkResponse(
                         onTap: (){
                           print("Mark Task Complete");
+                          setState(() {
+                            completeIcon = Icons.check_box; // Make This toggle
+                          });
                         },
-                        child: Container(
-                          width: 30,
-                          height: 30,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: UIColors.offBlue,
-                          ),
-                          child: Icon(
-                            Icons.check_circle_outline,
-                            color: Colors.white,
-                          ),
+                        child: CardMenuButton(
+                          icon: completeIcon,
                         ),
                       ),
                     ),
