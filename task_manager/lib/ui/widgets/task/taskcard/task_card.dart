@@ -108,7 +108,7 @@ class _TaskCardState extends State<TaskCard> {
                           print("Delete Task");
                         },
                         child: CardMenuButton(
-                          icon: Icons.remove_circle_outline,
+                          icon: Icons.delete,
                         ),
                       ),
                     ),
@@ -118,7 +118,8 @@ class _TaskCardState extends State<TaskCard> {
                         onTap: (){
                           print("Mark Task Complete");
                           setState(() {
-                            completeIcon = Icons.check_box; // Make This toggle
+                            // This should toggle based on the data in the DB
+                            completeIcon = Icons.check_box;
                           });
                         },
                         child: CardMenuButton(
