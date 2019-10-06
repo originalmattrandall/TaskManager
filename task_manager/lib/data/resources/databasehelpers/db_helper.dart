@@ -1,5 +1,8 @@
+import 'listitem_db_helper.dart';
+import 'reminder_db_helper.dart';
 import 'task_db_helper.dart';
 import 'group_db_helper.dart';
+import 'priority_db_helper.dart';
 
 import 'dart:io';
 import 'package:path/path.dart';
@@ -54,40 +57,42 @@ class DBHelper{
 
       // Creates the group table
       await db.execute('''
-        CREATE TABLE groups (
+        CREATE TABLE ${GroupDBHelper.tableName} (
           ${GroupDBHelper.id} INTEGER PRIMARY KEY,
           ${GroupDBHelper.name} TEXT,
           ${GroupDBHelper.description} TEXT,
           ${GroupDBHelper.dueDate} TEXT
         )
       ''');
-    }
 
+      // Creates the task list items table
+      await db.execute('''
+        CREATE TABLE ${ListItemDBHelper.tableName} (
+          ${ListItemDBHelper.id} INTEGER PRIMARY KEY,
+          ${ListItemDBHelper.taskId} INTEGER,
+          ${ListItemDBHelper.name} INTEGER,
+          ${ListItemDBHelper.isComplete} INTEGER
+        )
+      ''');
 
-    // Basic CRUD Operations
+      // Creates the table for the priority levels
+      await db.execute('''
+        CREATE TABLE ${PriorityDBHelper.tableName} (
+          ${PriorityDBHelper.id} INTEGER PRIMARY KEY,
+          ${PriorityDBHelper.name} TEXT,
+          ${PriorityDBHelper.colorCode} TEXT,
+          ${PriorityDBHelper.level} INTEGER
+        )
+      ''');
 
-    // Inserts a row and returns the inserted rows id.
-    Future<int> insert(Map<String, dynamic> row, String tableName) async{
-      Database db = await instance.database;
-      return await db.insert(tableName, row);
-    }
-
-    // Returns all of the rows in the database
-    Future<List<Map<String, dynamic>>> queryAllRows(String tableName) async {
-      Database db = await instance.database;
-      return await db.query(tableName);
-    }
-
-    // Updates a row in the database where the id is set in the model class
-    Future<int> update(Map<String, dynamic> row, String tableName, String idField) async {
-      Database db = await instance.database;
-      int id = row[idField];
-      return await db.update(tableName, row, where: '$idField = ?', whereArgs: [id]);
-    }
-
-    // Delete a row from the database
-    Future<int> delete(int id, String tableName, String idField) async {
-      Database db = await instance.database;
-      return await db.delete(tableName, where: '$idField = ?', whereArgs: [id]);
+      await db.execute('''
+        CREATE TABLE ${ReminderDBHelper.tableName} (
+          ${ReminderDBHelper.id} INTEGER PRIMARY KEY,
+          ${ReminderDBHelper.taskId} INTEGER,
+          ${ReminderDBHelper.type} TEXT,
+          ${ReminderDBHelper.triggerTime} TEXT,
+          ${ReminderDBHelper.dayOfWeek} INTEGER
+        )
+      ''');
     }
 }

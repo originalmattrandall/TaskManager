@@ -1,14 +1,16 @@
-import 'package:task_manager/data/resources/db_helper.dart';
+import 'db_helper.dart';
+
 import 'package:sqflite/sqflite.dart';
 
-class GroupDBHelper{
-  static final tableName = "groups";
+class ReminderDBHelper{
+  static final tableName = "reminder";
 
   // Column names
   static final id = "id";
-  static final name = "name";
-  static final description = "description";
-  static final dueDate = "due_date";
+  static final taskId = "task_id";
+  static final type = "type";
+  static final triggerTime = "trigger_time";
+  static final dayOfWeek = "day_of_week";
 
   // Reference to our single dbhelper
   final dbHelper = DBHelper.instance;

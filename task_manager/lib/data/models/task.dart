@@ -1,3 +1,5 @@
+import 'package:task_manager/data/resources/databasehelpers/task_db_helper.dart';
+
 class TaskModel{
   int id;
   int groupId;
@@ -22,4 +24,19 @@ class TaskModel{
     this.isComplete,
     this.isArchived
     });
+
+    Map<String, dynamic> toMap(){
+      return {
+        TaskDBHelper.id : id,
+        TaskDBHelper.groupId : groupId,
+        TaskDBHelper.listId : listId,
+        TaskDBHelper.priorityId : priorityId,
+        TaskDBHelper.name : name,
+        TaskDBHelper.description : description,
+        TaskDBHelper.hasList : hasList,
+        TaskDBHelper.hasReminder : hasReminder,
+        TaskDBHelper.isComplete : isComplete,
+        TaskDBHelper.isArchived : isArchived
+      };      
+    }
 }
