@@ -41,7 +41,7 @@ class TaskDBHelper{
           listId: maps[i][listId],
           priorityId: maps[i][priorityId],
           name: maps[i][name],
-          description: maps[i][description],
+          description: maps[i][description] ?? "",
           hasList: maps[i][hasList],
           hasReminder: maps[i][hasReminder],
           isComplete: maps[i][isComplete],

@@ -5,4 +5,6 @@ class Repository{
   final taskdbHelper = new TaskDBHelper();
 
   Future<List<TaskModel>> getAllTasks() => taskdbHelper.queryAllRows();
+
+  Future<int> deleteSingleTask(int id) => taskdbHelper.delete(id);
 }

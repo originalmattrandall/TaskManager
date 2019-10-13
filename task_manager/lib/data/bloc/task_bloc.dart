@@ -14,6 +14,11 @@ class TaskBloc{
     _taskFetcher.sink.add(taskModel);
   }
 
+  deleteSingleTask(int id) async {
+    await _repository.deleteSingleTask(id);
+    fetchAllTasks();
+  }
+
   dispose(){
     _taskFetcher.close();
   }

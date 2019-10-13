@@ -20,7 +20,7 @@ class MenuDrawerState extends State<MenuDrawer>{
         child: ListView(
           padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
           children:[
-            Container( //TODO: Move to its own widget class
+            Container( //TODO: Move to its own widget class (Create menu option)
               color: Theme.of(context).accentColor,
               child: ExpansionTile(
                 onExpansionChanged: (context){ 
@@ -44,7 +44,7 @@ class MenuDrawerState extends State<MenuDrawer>{
                 ],
               ),
             ),
-            Container( //TODO: Move to its own widget class
+            Container( //TODO: Move to its own widget class (Settings menu option)
               color: Theme.of(context).accentColor,
               child: ListTile(
                 title: Row(

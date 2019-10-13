@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:task_manager/ui/screens/home/home_list.dart';
-import 'package:task_manager/ui/widgets/task/task_list.dart';
 
 void main() => runApp(MyApp());
 

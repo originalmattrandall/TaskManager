@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:task_manager/data/bloc/task_bloc.dart';
 import 'package:task_manager/ui/ui_colors.dart';
 import 'package:task_manager/ui/widgets/general/card_menu_button.dart';
 
 class TaskCard extends StatefulWidget {
 
+  final int id;
   final String title;
   final String description;
   final DateTime date;
 
-  TaskCard({Key key, this.title, this.description, this.date}) : super(key: key);
+  TaskCard({Key key, this.id, this.title, this.description, this.date}) : super(key: key);
 
   _TaskCardState createState() => _TaskCardState();
 }
@@ -106,6 +108,7 @@ class _TaskCardState extends State<TaskCard> {
                         child: InkResponse(
                           onTap: (){
                             print("Delete Task");
+                            taskBloc.deleteSingleTask(widget.id);
                           },
                           child: CardMenuButton(
                             icon: Icons.delete,

@@ -12,7 +12,7 @@ class TaskList extends StatelessWidget{
         stream: taskBloc.allTasks,
         builder: (context, AsyncSnapshot<List<TaskModel>> snapshot){
           if(snapshot.hasData){
-            return buildList(snapshot);
+            return buildList(context, snapshot);
           }
           return Center(child: CircularProgressIndicator());
         },
@@ -20,16 +20,20 @@ class TaskList extends StatelessWidget{
     );
   }
 
-  Widget buildList(AsyncSnapshot<List<TaskModel>> snapshot){
-    return ListView.builder(
-      scrollDirection: Axis.vertical,
-      itemCount: snapshot.data.length,
-      itemBuilder: (BuildContext context, int index) {
-        return TaskCard(
-          title: snapshot.data[index].name,
-          description: "description",
+  Widget buildList(BuildContext context, AsyncSnapshot<List<TaskModel>> snapshot){
+    return Container(
+      color: Theme.of(context).primaryColor,
+      child: ListView.builder(
+        scrollDirection: Axis.vertical,
+        itemCount: snapshot.data.length,
+        itemBuilder: (BuildContext context, int index) {
+          return TaskCard(
+            id: snapshot.data[index].id,
+            title: snapshot.data[index].name,
+            description: snapshot.data[index].description,
           );
-      },
+        },
+      ),
     );
   }
 }
