@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_manager/ui/screens/home/home_list.dart';
 import 'package:task_manager/ui/widgets/task/task_list.dart';
 
 void main() => runApp(MyApp());
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       title: 'Task Manager',
-      home: TaskList(),
+      home: HomeList(),
       theme: ThemeData(
         primaryColor: Color.fromRGBO(0, 35, 67, 1),
         accentColor: Color.fromRGBO(0, 62, 120, 1),
