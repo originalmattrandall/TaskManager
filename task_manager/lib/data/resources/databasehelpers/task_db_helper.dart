@@ -20,7 +20,7 @@ class TaskDBHelper{
     static final isArchived = "is_archived";
 
     // Inserts a row and returns the inserted rows id.
-    static Future<void> insert(TaskModel task) async{
+    Future<void> insert(TaskModel task) async{
       Database db = await DBHelper.instance.database;
       await db.insert(
         tableName, 
@@ -41,7 +41,7 @@ class TaskDBHelper{
           listId: maps[i][listId],
           priorityId: maps[i][priorityId],
           name: maps[i][name],
-          description: maps[i][description] ?? "",
+          description: maps[i][description],
           hasList: maps[i][hasList],
           hasReminder: maps[i][hasReminder],
           isComplete: maps[i][isComplete],
