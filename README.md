@@ -7,6 +7,9 @@ The entire purpose behind this to do app was to learn the Flutter and Dart langu
 ## Features
 - [x] Default filter to view all Groups/Tasks
 - [ ] Create Task
+- [ ] Archive Task
 - [x] Delete Task
 - [ ] Update Task
 - [ ] Create Priority
+- [ ] User Settings
+    * - [ ] Archive before deleting tasks
