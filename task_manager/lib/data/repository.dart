@@ -10,7 +10,7 @@ class Repository{
 
   Future<int> deleteSingleTask(int id) => taskdbHelper.delete(id);
 
-  Future<TaskModel> insertSingleTask(TaskModel task) => taskdbHelper.insert(task);
+  Future<void> insertSingleTask(TaskModel task) => taskdbHelper.insert(task);
 
   // Group
 

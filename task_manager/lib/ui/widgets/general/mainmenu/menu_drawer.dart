@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_manager/routes.dart';
 import 'package:task_manager/ui/widgets/general/mainmenu/menu_item.dart';
 import 'package:task_manager/ui/ui_colors.dart';
 
@@ -37,7 +38,7 @@ class MenuDrawerState extends State<MenuDrawer>{
                     ),
                   ),
                 children:[
-                  MenuItem(value: "Task", icon: Icons.add_circle_outline, backgroundColor: UIColors.subMenuBlue ),
+                  MenuItem(value: "Task", icon: Icons.add_circle_outline, backgroundColor: UIColors.subMenuBlue, route: Routes.createTask),
                   MenuItem(value: "Group", icon: Icons.add_circle_outline, backgroundColor: UIColors.subMenuBlue ),
                   MenuItem(value: "Filter", icon: Icons.add_circle_outline, backgroundColor: UIColors.subMenuBlue ),
                   MenuItem(value: "Priority", icon: Icons.add_circle_outline, backgroundColor: UIColors.subMenuBlue ),           

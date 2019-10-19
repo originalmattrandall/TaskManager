@@ -21,7 +21,8 @@ class _CreateTaskState extends State<CreateTask> {
         drawer: MenuDrawer(),
         body: Scaffold(
           backgroundColor: Theme.of(context).primaryColor,
-          body: Column(
+          body: SingleChildScrollView(
+            child: Column(
             children: [
               Container(
                 width: double.infinity,
@@ -36,6 +37,7 @@ class _CreateTaskState extends State<CreateTask> {
               ),
               TaskCreateForm(),
             ],
+          ),
           ),
         ),
       ),
