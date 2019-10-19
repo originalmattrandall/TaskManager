@@ -14,7 +14,10 @@ The entire purpose behind this to do app was to learn the Flutter and Dart langu
 - [ ] User Settings
     * - [ ] Archive before deleting tasks
 
-## Experience
+## Experience and Knowledge Gained
 **Dart** - The learning curve was not very challanging here as i am mostly a backend developer picking up the dart language was fairly quick to do. Having strong knowledge of C# helped make this learning process smooth.
 
 **Flutter** - The ones responsible for Flutter and its documentation made it such an easy transition for any developer to pick up and understand. My biggest challenge here was not knowing what widgets to use in what scenario, luckily the documentation provides excellent support and examples to help figure this one out. Now to just work on my aweful design skills ;)
+
+## Author
+Matthew Randall
