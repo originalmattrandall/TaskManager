@@ -17,13 +17,14 @@ The entire purpose behind this to do app was to learn the Flutter and Dart langu
     * - [ ] Archive before deleting tasks
     
 ### Nice to Haves
-- [ ] Shareable taks/lists
+- [ ] Shareable tasks/lists
+- [ ] Color coded priorities
 
 ## Current State
-As of right now I would say it is a functional application, Lacks a few of the features that I would say are important but it is in a useable state.
+As of right now it is a functional application, Lacks a few of the features that I would say are important but it is in a useable state.
 
 ## Future State
-Going forward the above primary features are were my focus will be. Once they are implemented I will be able to work towards some of the nice to have type features.
+Going forward the above primary features are where my focus will be. Once they are implemented I will be able to work towards some of the nice to have type features.
 
 ## Experience and Knowledge Gained
 **Dart** - The learning curve was not very challanging here as i am mostly a backend developer picking up the dart language was fairly quick to do. Having strong knowledge of C# helped make this learning process smooth.
