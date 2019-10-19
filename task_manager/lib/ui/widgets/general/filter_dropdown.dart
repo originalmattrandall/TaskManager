@@ -24,7 +24,7 @@ class _FilterDropdownState extends State<FilterDropdown> {
           color: UIColors.subMenuBlue,
           child: Center(
             heightFactor: 1,            
-            child: DropdownButtonFormField<String>( //TODO: Change the dropdown icon
+            child: DropdownButtonFormField<String>(
               decoration: InputDecoration(
                 contentPadding: EdgeInsetsGeometry.lerp(EdgeInsets.all(0), EdgeInsets.all(1), 10),                          
               ),

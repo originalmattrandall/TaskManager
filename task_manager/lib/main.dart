@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:task_manager/routes.dart';
-import 'package:task_manager/ui/screens/createtask/create_task.dart';
-import 'package:task_manager/ui/screens/home/home_list.dart';
-import 'package:task_manager/ui/widgets/task/task_create_form.dart';
 
 void main() => runApp(MyApp());
 
