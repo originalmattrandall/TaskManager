@@ -5,14 +5,25 @@ A very simple to do based application. Used to track your daily tasks or create 
 The entire purpose behind this to do app was to learn the Flutter and Dart languages. For learning purposes it was important to incorporate both the need for a database and a reason to utilize the BLoC pattern. 
 
 ## Features
+### Primary
 - [x] Default filter to view all Groups/Tasks
-- [ ] Create Task
+- [x] Create Task
+- [ ] Create Groups
 - [ ] Archive Task
 - [x] Delete Task
 - [ ] Update Task
 - [ ] Create Priority
 - [ ] User Settings
     * - [ ] Archive before deleting tasks
+    
+### Nice to Haves
+- [ ] Shareable taks/lists
+
+## Current State
+As of right now I would say it is a functional application, Lacks a few of the features that I would say are important but it is in a useable state.
+
+## Future State
+Going forward the above primary features are were my focus will be. Once they are implemented I will be able to work towards some of the nice to have type features.
 
 ## Experience and Knowledge Gained
 **Dart** - The learning curve was not very challanging here as i am mostly a backend developer picking up the dart language was fairly quick to do. Having strong knowledge of C# helped make this learning process smooth.
