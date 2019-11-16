@@ -12,9 +12,9 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: Routes.routes,
       theme: ThemeData(
-        primaryColor: Color.fromRGBO(0, 35, 67, 1),
-        accentColor: Color.fromRGBO(0, 62, 120, 1),
-        backgroundColor: Color.fromRGBO(0, 35, 67, 1),
+        primaryColor: Colors.lightBlue,
+        accentColor: Colors.lightBlue[300],
+        backgroundColor: Colors.white,
       ),      
     );
   }
