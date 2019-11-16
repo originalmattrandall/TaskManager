@@ -16,12 +16,8 @@ class _FilterDropdownState extends State<FilterDropdown> {
   @override
   Widget build(BuildContext context) {
     return Container(
-       child: Theme(
-        data: Theme.of(context).copyWith(
-          canvasColor: UIColors.subMenuBlue
-        ),
         child: Container(
-          color: UIColors.subMenuBlue,
+          color: Colors.white,
           child: Center(
             heightFactor: 1,            
             child: DropdownButtonFormField<String>(
@@ -35,7 +31,7 @@ class _FilterDropdownState extends State<FilterDropdown> {
                   child: Text(
                     item,
                     style: TextStyle(
-                      color: Colors.white,
+                      color: Colors.lightBlue,
                       fontSize: 18,
                     ),
                   ),
@@ -49,7 +45,6 @@ class _FilterDropdownState extends State<FilterDropdown> {
             ),
           ),
         ),
-      ),
     );
   }
 }
