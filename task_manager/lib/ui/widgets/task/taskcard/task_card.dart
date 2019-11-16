@@ -24,7 +24,7 @@ class _TaskCardState extends State<TaskCard> {
     return Container(
         padding: EdgeInsets.fromLTRB(20, 5, 20, 0),
         child: Row(
-          children: <Widget>[
+          children: [
             Expanded(
               flex: 5,
               child: Column(

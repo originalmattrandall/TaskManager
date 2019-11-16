@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:task_manager/ui/widgets/general/primary_fab.dart';
+import 'package:task_manager/ui/widgets/task/task_list.dart';
 
 class MainPage extends StatefulWidget {
   MainPage({Key key, this.title}) : super(key: key);
@@ -19,10 +20,8 @@ class _MainPageState extends State<MainPage> {
           title: Text("Title"),
           elevation: 0.0,          
         ),
-        body: Text("body"),
-        floatingActionButton: PrimaryFab(
-          icon: Icons.menu,
-        ),
+        body: TaskList(),
+        floatingActionButton: PrimaryFab(),
       ),
     );
   }
