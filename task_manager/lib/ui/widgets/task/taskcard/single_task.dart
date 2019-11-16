@@ -6,16 +6,17 @@ class SingleTask extends StatefulWidget {
   final String description;
   final DateTime date;
 
-  bool isComplete = false;
-
   SingleTask({Key key, this.id, this.title, this.description, this.date}) : super(key: key);
 
   _SingleTaskState createState() => _SingleTaskState();
 }
 
-class _SingleTaskState extends State<SingleTask> {
+class _SingleTaskState extends State<SingleTask> {  
+  bool isComplete = false;
+
   @override
   Widget build(BuildContext context) {
+    
     final double outerContainerWidth = MediaQuery.of(context).size.width*0.8;
 
     return Container(
@@ -28,11 +29,11 @@ class _SingleTaskState extends State<SingleTask> {
                 child: IconButton(
                   onPressed: (){
                     setState(() {
-                      widget.isComplete = !widget.isComplete;
+                      isComplete = !isComplete;
                     });
                   },
                   icon: Icon(
-                    widget.isComplete ? Icons.check_box : Icons.check_box_outline_blank,
+                    isComplete ? Icons.check_box : Icons.check_box_outline_blank,
                     color: Colors.lightBlue,
                     ),
                 ),
