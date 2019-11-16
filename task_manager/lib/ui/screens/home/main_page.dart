@@ -17,7 +17,12 @@ class _MainPageState extends State<MainPage> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Title"),
+          title: Text(
+            "All Tasks", 
+            style: TextStyle(
+                color: Colors.white
+              ),
+            ),
           elevation: 0.0,          
         ),
         body: TaskList(),

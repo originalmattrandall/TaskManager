@@ -31,7 +31,7 @@ class _PrimaryFabState extends State<PrimaryFab> with SingleTickerProviderStateM
         Tween<double>(begin: 0.0, end: 1.0).animate(_animationController);
     _buttonColor = ColorTween(
       begin: Colors.lightBlue[300],
-      end: Colors.lightBlue,
+      end: Colors.lightBlue[300],
     ).animate(CurvedAnimation(
       parent: _animationController,
       curve: Interval(

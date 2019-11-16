@@ -6,6 +6,8 @@ class SingleTask extends StatefulWidget {
   final String description;
   final DateTime date;
 
+  bool isComplete = false;
+
   SingleTask({Key key, this.id, this.title, this.description, this.date}) : super(key: key);
 
   _SingleTaskState createState() => _SingleTaskState();
@@ -16,17 +18,28 @@ class _SingleTaskState extends State<SingleTask> {
   Widget build(BuildContext context) {
     final double outerContainerWidth = MediaQuery.of(context).size.width*0.8;
 
-    return Container( 
-      padding: EdgeInsets.fromLTRB(20, 5, 20, 0),
+    return Container(
+      width: outerContainerWidth,
       child: Row(
         children: [
           Column(
             children: [
-              Icon(Icons.check_box_outline_blank),
-            ]
+              Container(
+                child: IconButton(
+                  onPressed: (){
+                    setState(() {
+                      widget.isComplete = !widget.isComplete;
+                    });
+                  },
+                  icon: Icon(
+                    widget.isComplete ? Icons.check_box : Icons.check_box_outline_blank,
+                    color: Colors.lightBlue,
+                    ),
+                ),
+              ),
+            ],
           ),
           Container(
-            padding: EdgeInsets.fromLTRB(20, 5, 20, 0),
             width: outerContainerWidth,
             child: Column(
               children: [
@@ -35,6 +48,9 @@ class _SingleTaskState extends State<SingleTask> {
                   child: Container(
                     child: Text(widget.title),
                   ),
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(0, 2, 0, 2),
                 ),
                 Align( // The Description of the to do item
                   alignment: Alignment.centerLeft,
