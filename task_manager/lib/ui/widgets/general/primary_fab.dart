@@ -87,7 +87,23 @@ class _PrimaryFabState extends State<PrimaryFab> with SingleTickerProviderStateM
   Widget newGroup(){
     return Container(
       child: FloatingActionButton(
-        onPressed: null,
+        onPressed: () => showDialog(
+          context: context,
+          builder: (BuildContext context){
+            return AlertDialog(
+              title: Text("Feature Not Available"),
+              content: Text("Cant create Groups yet. Coming Soon..."),
+              actions: [
+                FlatButton(
+                  child: Text("Ok"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                )
+              ],
+            );
+          }
+        ),
         tooltip: 'Create a new group',
         child: Icon(
           Icons.library_books,
@@ -102,7 +118,23 @@ class _PrimaryFabState extends State<PrimaryFab> with SingleTickerProviderStateM
   Widget newFilter(){
     return Container(
       child: FloatingActionButton(
-        onPressed: null,
+        onPressed: () => showDialog(
+          context: context,
+          builder: (BuildContext context){
+            return AlertDialog(
+              title: Text("Feature Not Available"),
+              content: Text("Cant create Filters yet. Coming Soon..."),
+              actions: [
+                FlatButton(
+                  child: Text("Ok"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                )
+              ],
+            );
+          }
+        ),
         tooltip: 'Create a new filter',
         child: Icon(
           Icons.storage,
