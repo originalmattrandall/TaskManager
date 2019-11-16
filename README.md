@@ -21,7 +21,7 @@ The entire purpose behind this to do app was to learn the Flutter and Dart langu
 - [ ] Color coded priorities
 
 ## Current State
-As of right now it is a functional application, Lacks a few of the features that I would say are important but it is in a useable state.
+As of right now it is a functional application, Lacks a few of the features that I would say are important but it is in a useable state. Since I'm still learning Flutter/Dart its likely refactoring will be a constant thing for awhile.
 
 ## Future State
 Going forward the above primary features are where my focus will be. Once they are implemented I will be able to work towards some of the nice to have type features.
