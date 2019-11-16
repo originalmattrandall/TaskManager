@@ -6,11 +6,11 @@ The entire purpose behind this to do app was to learn the Flutter and Dart langu
 
 ## Features
 ### Primary
-- [x] Default filter to view all Groups/Tasks
+- [ ] Default filter to view all Groups/Tasks
 - [x] Create Task
 - [ ] Create Groups
 - [ ] Archive Task
-- [x] Delete Task
+- [ ] Delete Task
 - [ ] Update Task
 - [ ] Create Priority
 - [ ] User Settings
@@ -22,6 +22,8 @@ The entire purpose behind this to do app was to learn the Flutter and Dart langu
 
 ## Current State
 As of right now it is a functional application, Lacks a few of the features that I would say are important but it is in a useable state. Since I'm still learning Flutter/Dart its likely refactoring will be a constant thing for awhile.
+
+Currently reworking the UI as I was not a fan of its original look.
 
 ## Future State
 Going forward the above primary features are where my focus will be. Once they are implemented I will be able to work towards some of the nice to have type features.

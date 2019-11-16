@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:task_manager/ui/widgets/general/primary_fab.dart';
+import 'package:task_manager/ui/widgets/task/task_list.dart';
 
 class MainPage extends StatefulWidget {
   MainPage({Key key, this.title}) : super(key: key);
@@ -16,13 +17,16 @@ class _MainPageState extends State<MainPage> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Title"),
+          title: Text(
+            "All Tasks", 
+            style: TextStyle(
+                color: Colors.white
+              ),
+            ),
           elevation: 0.0,          
         ),
-        body: Text("body"),
-        floatingActionButton: PrimaryFab(
-          icon: Icons.menu,
-        ),
+        body: TaskList(),
+        floatingActionButton: PrimaryFab(),
       ),
     );
   }

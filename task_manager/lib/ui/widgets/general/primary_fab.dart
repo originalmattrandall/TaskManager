@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_manager/ui/screens/createtask/create_task.dart';
 
 class PrimaryFab extends StatefulWidget {
   final Function() onPressed;
@@ -30,7 +31,7 @@ class _PrimaryFabState extends State<PrimaryFab> with SingleTickerProviderStateM
         Tween<double>(begin: 0.0, end: 1.0).animate(_animationController);
     _buttonColor = ColorTween(
       begin: Colors.lightBlue[300],
-      end: Colors.lightBlue,
+      end: Colors.lightBlue[300],
     ).animate(CurvedAnimation(
       parent: _animationController,
       curve: Interval(
@@ -71,10 +72,14 @@ class _PrimaryFabState extends State<PrimaryFab> with SingleTickerProviderStateM
   Widget newTask(){
     return Container(
       child: FloatingActionButton(
-        onPressed: null,
+        onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) => CreateTask())),
         tooltip: 'Create a new todo item',
-        child: Icon(Icons.mic),
+        child: Icon(
+          Icons.library_add,
+          color: Colors.white
+          ),
         mini: true,
+        heroTag: 'NewTaskButton',
       )
     );
   }
@@ -84,8 +89,12 @@ class _PrimaryFabState extends State<PrimaryFab> with SingleTickerProviderStateM
       child: FloatingActionButton(
         onPressed: null,
         tooltip: 'Create a new group',
-        child: Icon(Icons.mode_edit),
+        child: Icon(
+          Icons.library_books,
+          color: Colors.white,
+          ),
         mini: true,
+        heroTag: 'NewGroupButton',
       )
     );
   }
@@ -95,8 +104,12 @@ class _PrimaryFabState extends State<PrimaryFab> with SingleTickerProviderStateM
       child: FloatingActionButton(
         onPressed: null,
         tooltip: 'Create a new filter',
-        child: Icon(Icons.music_video),
+        child: Icon(
+          Icons.storage,
+          color: Colors.white,
+        ),
         mini: true,
+        heroTag: 'NewFilterButton',
       )
     );
   }
@@ -110,7 +123,9 @@ class _PrimaryFabState extends State<PrimaryFab> with SingleTickerProviderStateM
         child: AnimatedIcon(
           icon: AnimatedIcons.menu_close,
           progress: _animateIcon,
-        ), 
+          color: Colors.white,
+        ),
+        heroTag: 'NewToggleButton',
       ),
     );
   }
