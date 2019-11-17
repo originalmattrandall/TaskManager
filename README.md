@@ -10,7 +10,7 @@ The entire purpose behind this to do app was to learn the Flutter and Dart langu
 - [x] Create Task
 - [ ] Create Groups
 - [ ] Archive Task
-- [ ] Delete Task
+- [x] Delete Task
 - [ ] Update Task
 - [ ] Create Priority
 - [ ] User Settings
