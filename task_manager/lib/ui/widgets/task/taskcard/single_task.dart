@@ -20,6 +20,7 @@ class _SingleTaskState extends State<SingleTask> {
     final double outerContainerWidth = MediaQuery.of(context).size.width*0.8;
 
     return Container(
+      padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
       width: outerContainerWidth,
       child: Row(
         children: [
@@ -30,6 +31,7 @@ class _SingleTaskState extends State<SingleTask> {
                   onPressed: (){
                     setState(() {
                       isComplete = !isComplete;
+                      // TODO: Make call to database to update items status
                     });
                   },
                   icon: Icon(
@@ -40,7 +42,8 @@ class _SingleTaskState extends State<SingleTask> {
               ),
             ],
           ),
-          Container(
+          Expanded(
+          child: Container(
             width: outerContainerWidth,
             child: Column(
               children: [
@@ -67,6 +70,7 @@ class _SingleTaskState extends State<SingleTask> {
                 ),
               ],
             )
+          )
           )
         ]
       )
