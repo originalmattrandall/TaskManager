@@ -3,6 +3,8 @@ import 'package:task_manager/data/bloc/task_bloc.dart';
 import 'package:task_manager/ui/ui_colors.dart';
 import 'package:task_manager/ui/widgets/general/card_menu_button.dart';
 
+// No longer used
+
 class TaskCard extends StatefulWidget {
 
   final int id;
