@@ -12,28 +12,40 @@ class CreateTask extends StatefulWidget {
 class _CreateTaskState extends State<CreateTask> {
   @override
   Widget build(BuildContext context) {
+
+    final double outerContainerWidth = MediaQuery.of(context).size.width*0.86;
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: SearchBar(),
-          elevation: 0.0,          
+          iconTheme: IconThemeData(
+            color: Colors.grey,
+          ),
+          title: Text(
+              "Task list",
+              style: TextStyle(
+                color: Colors.grey,
+                fontSize: 12,
+              )
+            ),
+          elevation: 0.0,    
+          backgroundColor: Colors.white,
         ),
-        drawer: MenuDrawer(),
         body: Scaffold(
-          backgroundColor: Theme.of(context).primaryColor,
+          //backgroundColor: Theme.of(context).primaryColor,
           body: SingleChildScrollView(
             child: Column(
             children: [
               Container(
-                width: double.infinity,
-                color: Theme.of(context).accentColor,
-                child: Padding(
-                  padding: EdgeInsets.fromLTRB(20, 10, 0, 10),
-                  child: Text(
-                    "Create a New Task",
-                    style: TextStyle(color: Colors.white, fontSize: 18)
+                width: outerContainerWidth,
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "Create a new task",
+                  style: TextStyle(
+                    color: Colors.lightBlue,
+                    fontSize: 24,
                   ),
-                )
+                ),
               ),
               TaskCreateForm(),
             ],

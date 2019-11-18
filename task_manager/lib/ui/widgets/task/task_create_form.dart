@@ -16,15 +16,16 @@ class _TaskCreateFormState extends State<TaskCreateForm> {
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
 
-  OutlineInputBorder inputBorder = const OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.white)
-      );
+  UnderlineInputBorder underLineBorder = const UnderlineInputBorder(
+    borderSide: BorderSide(
+      color: Colors.lightBlue
+    )
+  );
 
   @override
   Widget build(BuildContext context) {
     return Material(
       child: Container(
-        color: Theme.of(context).primaryColor,
         child: Padding(
           padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
           child: Form(
@@ -34,18 +35,18 @@ class _TaskCreateFormState extends State<TaskCreateForm> {
                 TextFormField(
                   controller: _titleController,
                   style: TextStyle(
-                    color: Colors.white,
+                    color: Colors.lightBlue,
                     decoration: TextDecoration.none
                   ),
                   decoration: InputDecoration(
-                    labelStyle: TextStyle(color: Colors.white),
-                    hintStyle: TextStyle(color: Colors.white24),
+                    labelStyle: TextStyle(color: Colors.lightBlue),
+                    hintStyle: TextStyle(color: Colors.lightBlue[100]),
                     labelText: "Title",
                     hintText: "Title of the Task",
-                    enabledBorder: inputBorder,
-                    focusedBorder: inputBorder,
-                    errorBorder: inputBorder,
-                    focusedErrorBorder: inputBorder
+                    enabledBorder: underLineBorder,
+                    focusedBorder: underLineBorder,
+                    errorBorder: underLineBorder,
+                    focusedErrorBorder: underLineBorder
                   ),
                   validator: (value) {
                     if (value.isEmpty) {
@@ -59,22 +60,22 @@ class _TaskCreateFormState extends State<TaskCreateForm> {
                   child: TextFormField(
                     controller: _descriptionController,
                     style: TextStyle(
-                      color: Colors.white,
+                      color: Colors.lightBlue,
                       decoration: TextDecoration.none
                     ),
                     decoration: InputDecoration(
-                      labelStyle: TextStyle(color: Colors.white),
-                      hintStyle: TextStyle(color: Colors.white24),
+                    labelStyle: TextStyle(color: Colors.lightBlue),
+                    hintStyle: TextStyle(color: Colors.lightBlue[100]),
                       labelText: "Description",
-                      hintText: "Title of the Task",
-                      enabledBorder: inputBorder,
-                      focusedBorder: inputBorder,
-                      errorBorder: inputBorder,
-                      focusedErrorBorder: inputBorder
+                      hintText: "Descrption of the task",
+                      enabledBorder: underLineBorder,
+                      focusedBorder: underLineBorder,
+                      errorBorder: underLineBorder,
+                      focusedErrorBorder: underLineBorder
                     ),
                     validator: (value) {
                       if (value.isEmpty) {
-                        return "Please enter a title";
+                        return "Please enter a description";
                       }
                       return null;
                     },
@@ -95,6 +96,9 @@ class _TaskCreateFormState extends State<TaskCreateForm> {
                     }
                   },
                 ),
+                Container(
+                  
+                )
               ],
             ),
             ),
