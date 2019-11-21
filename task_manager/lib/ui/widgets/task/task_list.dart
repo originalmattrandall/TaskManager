@@ -32,13 +32,13 @@ class TaskList extends StatelessWidget{
         scrollDirection: Axis.vertical,
         itemCount: snapshot.data.length,
         itemBuilder: (BuildContext context, int index) {
-          return SlidableSingleTask( // This will need to be converted into a widget that returns TaskCards based on filter selected
-            // ?? returns defaults when the values are null coming from the DB
+          return SlidableSingleTask(
             id: snapshot.data[index].id,
             title: snapshot.data[index].name ?? "",
             description: snapshot.data[index].description ?? "",
           );
         },
+        padding: EdgeInsets.fromLTRB(0, 0, 0, 80),
       ),
     );
   }
