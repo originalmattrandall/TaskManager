@@ -4,7 +4,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:task_manager/ui/widgets/task/taskcard/single_task.dart';
 
 // Shout out to https://github.com/letsar
-// Made an awesome widget for slidable menus flutter_slidable
+// Made an awesome widget for slidable menus: flutter_slidable
 
 class SlidableSingleTask extends StatefulWidget {
   final int id;
@@ -24,11 +24,14 @@ class _SlidableSingleTaskState extends State<SlidableSingleTask> {
       child: Slidable(
         actionPane: SlidableDrawerActionPane(),
         actionExtentRatio: 0.15,
-        child: SingleTask(
-          id: widget.id,
-          title: widget.title,
-          description: widget.description,
-          date: widget.date
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
+            child: SingleTask(
+            id: widget.id,
+            title: widget.title,
+            description: widget.description,
+            date: widget.date
+          ),
         ),
         secondaryActions: [
           IconSlideAction(

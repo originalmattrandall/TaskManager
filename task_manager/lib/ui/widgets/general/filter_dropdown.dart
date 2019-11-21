@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:task_manager/ui/ui_colors.dart';
 
 class FilterDropdown extends StatefulWidget {
   FilterDropdown({Key key}) : super(key: key);
