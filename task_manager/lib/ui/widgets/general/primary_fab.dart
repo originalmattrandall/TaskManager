@@ -25,10 +25,13 @@ class _PrimaryFabState extends State<PrimaryFab> with SingleTickerProviderStateM
     _animationController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 500))
           ..addListener(() {
-            setState(() {});
+            setState(() {
+            });
           });
+
     _animateIcon =
         Tween<double>(begin: 0.0, end: 1.0).animate(_animationController);
+
     _buttonColor = ColorTween(
       begin: Colors.lightBlue[300],
       end: Colors.lightBlue[300],
@@ -40,6 +43,7 @@ class _PrimaryFabState extends State<PrimaryFab> with SingleTickerProviderStateM
         curve: Curves.linear,
       ),
     ));
+
     _translateButton = Tween<double>(
       begin: _fabHeight,
       end: -14.0,
@@ -184,12 +188,11 @@ class _PrimaryFabState extends State<PrimaryFab> with SingleTickerProviderStateM
           ),
           child: newGroup(),
         ),
-
         Transform(
           transform: Matrix4.translationValues(
-            0.0, 
-            _translateButton.value, 
-            0.0
+            0,
+            _translateButton.value,
+            0
           ),
           child: newFilter(),
         ),

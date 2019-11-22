@@ -23,9 +23,9 @@ class _SlidableSingleTaskState extends State<SlidableSingleTask> {
     return Container(
       child: Slidable(
         actionPane: SlidableDrawerActionPane(),
-        actionExtentRatio: 0.15,
+        actionExtentRatio: 0.16,     
         child: Padding(
-          padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
+          padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
             child: SingleTask(
             id: widget.id,
             title: widget.title,
