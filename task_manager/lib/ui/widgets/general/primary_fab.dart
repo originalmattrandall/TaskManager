@@ -173,8 +173,8 @@ class _PrimaryFabState extends State<PrimaryFab> with SingleTickerProviderStateM
       children: [
         Transform(
           transform: Matrix4.translationValues(
-            0.0, 
-            _translateButton.value * 2.7, 
+            0, 
+            _translateButton.value * 2.68, 
             0.0
           ),
           child: newTask(),
@@ -183,14 +183,14 @@ class _PrimaryFabState extends State<PrimaryFab> with SingleTickerProviderStateM
         Transform(
           transform: Matrix4.translationValues(
             0.0, 
-            _translateButton.value * 1.7, 
+            _translateButton.value * 1.88,
             0.0
           ),
           child: newGroup(),
         ),
         Transform(
           transform: Matrix4.translationValues(
-            0,
+            0.0,
             _translateButton.value,
             0
           ),
