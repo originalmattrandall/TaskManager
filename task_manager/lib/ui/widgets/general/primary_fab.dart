@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:task_manager/routes.dart';
-import 'package:task_manager/ui/screens/createtask/create_task.dart';
 
 class PrimaryFab extends StatefulWidget {
   final Function() onPressed;
@@ -15,7 +14,6 @@ class PrimaryFab extends StatefulWidget {
 class _PrimaryFabState extends State<PrimaryFab> with SingleTickerProviderStateMixin{
   bool isOpened = false;
   AnimationController _animationController;
-  Animation<Color> _buttonColor;
   Animation<double> _animateIcon;
   Animation<double> _translateButton;
   Curve _curve = Curves.easeOut;
@@ -33,17 +31,6 @@ class _PrimaryFabState extends State<PrimaryFab> with SingleTickerProviderStateM
     _animateIcon =
         Tween<double>(begin: 0.0, end: 1.0).animate(_animationController);
 
-    _buttonColor = ColorTween(
-      begin: Colors.lightBlue[300],
-      end: Colors.lightBlue[300],
-    ).animate(CurvedAnimation(
-      parent: _animationController,
-      curve: Interval(
-        0.00,
-        1.00,
-        curve: Curves.linear,
-      ),
-    ));
 
     _translateButton = Tween<double>(
       begin: _fabHeight,
@@ -77,6 +64,7 @@ class _PrimaryFabState extends State<PrimaryFab> with SingleTickerProviderStateM
   Widget newTask(){
     return Container(
       child: FloatingActionButton(
+        backgroundColor: Theme.of(context).primaryColor,
         onPressed: () =>  Navigator.pushNamed(context, Routes.createTask),
         tooltip: 'Create a new todo item',
         child: Icon(
@@ -92,6 +80,7 @@ class _PrimaryFabState extends State<PrimaryFab> with SingleTickerProviderStateM
   Widget newGroup(){
     return Container(
       child: FloatingActionButton(
+        backgroundColor: Theme.of(context).primaryColor,
         onPressed: () => showDialog(
           context: context,
           builder: (BuildContext context){
@@ -123,6 +112,7 @@ class _PrimaryFabState extends State<PrimaryFab> with SingleTickerProviderStateM
   Widget userSettings(){
     return Container(
       child: FloatingActionButton(
+        backgroundColor: Theme.of(context).primaryColor,
         onPressed: () =>  Navigator.pushNamed(context, Routes.userSettings),
         tooltip: 'Go to user settings',
         child: Icon(
@@ -139,7 +129,7 @@ class _PrimaryFabState extends State<PrimaryFab> with SingleTickerProviderStateM
   Widget toggle(){
     return Container(
       child: FloatingActionButton(
-        backgroundColor: _buttonColor.value,
+        backgroundColor: Theme.of(context).primaryColor,
         onPressed: animate,
         tooltip: 'Open/Close Menu',
         child: AnimatedIcon(
