@@ -10,13 +10,10 @@ class UserSettings extends StatefulWidget {
 
 class _UserSettingsState extends State<UserSettings> {
 
-  UserSettingsPreferences userPreferences;
+  UserSettingsPreferences _userPreferences = new UserSettingsPreferences();
+
   @override
   Widget build(BuildContext context) {
-
-    bool archiveBeforeDelete;
-
-    UserSettingsPreferences sharedPreferences = new UserSettingsPreferences();
 
     final double leftAndRightPadding = MediaQuery.of(context).size.width*0.086;
 
@@ -56,7 +53,7 @@ class _UserSettingsState extends State<UserSettings> {
                     ),
                     Container(
                       child: FutureBuilder(
-                        future: sharedPreferences.getArchiveBeforeDelete(),
+                        future: _userPreferences.getArchiveBeforeDelete(),
                         initialData: false,
                         builder: (context, snapshot){
                           return Switch(
@@ -64,7 +61,7 @@ class _UserSettingsState extends State<UserSettings> {
                             value: snapshot.data,
                             onChanged: (value) {
                               setState(() {
-                                sharedPreferences.setArchiveBeforeDelete(value);
+                                _userPreferences.setArchiveBeforeDelete(value);
                               });
                             },
                           );
