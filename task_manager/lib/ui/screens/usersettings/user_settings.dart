@@ -41,6 +41,15 @@ class _UserSettingsState extends State<UserSettings> {
                   });
                 },
               ),
+              SettingsSwitch(
+                title: "Turn Off Notifications",
+                future: _userPreferences.getTurnOffNotifications(),
+                function: (value) async {
+                  setState(() {
+                    _userPreferences.setTurnOffNotifications(value);
+                  });
+                },
+              ),
             ],
           ),
         ),
