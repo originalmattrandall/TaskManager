@@ -11,8 +11,9 @@ class SlidableSingleTask extends StatefulWidget {
   final String title;
   final String description;
   final DateTime date;
+  final int isComplete;
 
-  SlidableSingleTask({Key key, this.id, this.title, this.description, this.date}) : super(key: key);
+  SlidableSingleTask({Key key, this.id, this.title, this.description, this.date, this.isComplete}) : super(key: key);
 
   _SlidableSingleTaskState createState() => _SlidableSingleTaskState();
 }
@@ -30,7 +31,8 @@ class _SlidableSingleTaskState extends State<SlidableSingleTask> {
             id: widget.id,
             title: widget.title,
             description: widget.description,
-            date: widget.date
+            date: widget.date,
+            isComplete: widget.isComplete,
           ),
         ),
         secondaryActions: [

@@ -36,6 +36,7 @@ class TaskList extends StatelessWidget{
             id: snapshot.data[index].id,
             title: snapshot.data[index].name ?? "",
             description: snapshot.data[index].description ?? "",
+            isComplete: snapshot.data[index].isComplete ?? 0,
           );
         },
         padding: EdgeInsets.fromLTRB(0, 0, 0, 80),

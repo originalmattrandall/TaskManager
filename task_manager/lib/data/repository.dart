@@ -12,6 +12,8 @@ class Repository{
 
   Future<void> insertSingleTask(TaskModel task) => taskdbHelper.insert(task);
 
+  Future<void> updateSingleTask(Map<String, dynamic> row) => taskdbHelper.update(row);
+
   // Group
 
   // Priorities
