@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:task_manager/data/shared_preferences.dart';
+import 'package:task_manager/ui/widgets/usersettings/settings_switch.dart';
 
 class UserSettings extends StatefulWidget {
   UserSettings({Key key}) : super(key: key);
@@ -14,9 +14,6 @@ class _UserSettingsState extends State<UserSettings> {
 
   @override
   Widget build(BuildContext context) {
-
-    final double leftAndRightPadding = MediaQuery.of(context).size.width*0.086;
-
     return SafeArea(
       child: Scaffold(        
         appBar: AppBar(
@@ -35,43 +32,15 @@ class _UserSettingsState extends State<UserSettings> {
         ),
         body: Column(
             children: [ 
-              Container(
-                alignment: Alignment.topCenter,
-                padding: EdgeInsets.fromLTRB(leftAndRightPadding, 10, leftAndRightPadding, 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      child: Text(
-                        "Archive Tasks Before Deleting?",
-                        style: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      child: FutureBuilder(
-                        future: _userPreferences.getArchiveBeforeDelete(),
-                        initialData: false,
-                        builder: (context, snapshot){
-                          return Switch(
-                            activeColor: Theme.of(context).primaryColor,
-                            value: snapshot.data,
-                            onChanged: (value) {
-                              setState(() {
-                                _userPreferences.setArchiveBeforeDelete(value);
-                              });
-                            },
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                ),
+              SettingsSwitch(
+                title: "Archive Tasks Before Deleting",
+                future: _userPreferences.getArchiveBeforeDelete(),
+                function: (value) async {
+                  setState(() {
+                    _userPreferences.setArchiveBeforeDelete(value);
+                  });
+                },
               ),
-              Text("hello2")
             ],
           ),
         ),
