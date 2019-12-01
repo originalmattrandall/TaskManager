@@ -36,7 +36,7 @@ class _CreateTaskFormState extends State<CreateTaskForm> {
                 Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Create a new task",
+                    "Create a New Task",
                     style: TextStyle(
                       color: Colors.lightBlue,
                       fontSize: 24,
