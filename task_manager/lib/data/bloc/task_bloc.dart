@@ -19,6 +19,11 @@ class TaskBloc{
     fetchAllTasks();
   }
 
+  updateSingleTask(Map<String, dynamic> row) async {
+    await _repository.updateSingleTask(row);
+    fetchAllTasks();
+  }
+
   deleteSingleTask(int id) async {
     await _repository.deleteSingleTask(id);
     fetchAllTasks();
