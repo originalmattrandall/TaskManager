@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:task_manager/ui/screens/createtask/create_task.dart';
+import 'package:task_manager/routes.dart';
 
 class PrimaryFab extends StatefulWidget {
   final Function() onPressed;
@@ -14,7 +14,6 @@ class PrimaryFab extends StatefulWidget {
 class _PrimaryFabState extends State<PrimaryFab> with SingleTickerProviderStateMixin{
   bool isOpened = false;
   AnimationController _animationController;
-  Animation<Color> _buttonColor;
   Animation<double> _animateIcon;
   Animation<double> _translateButton;
   Curve _curve = Curves.easeOut;
@@ -32,17 +31,6 @@ class _PrimaryFabState extends State<PrimaryFab> with SingleTickerProviderStateM
     _animateIcon =
         Tween<double>(begin: 0.0, end: 1.0).animate(_animationController);
 
-    _buttonColor = ColorTween(
-      begin: Colors.lightBlue[300],
-      end: Colors.lightBlue[300],
-    ).animate(CurvedAnimation(
-      parent: _animationController,
-      curve: Interval(
-        0.00,
-        1.00,
-        curve: Curves.linear,
-      ),
-    ));
 
     _translateButton = Tween<double>(
       begin: _fabHeight,
@@ -76,7 +64,8 @@ class _PrimaryFabState extends State<PrimaryFab> with SingleTickerProviderStateM
   Widget newTask(){
     return Container(
       child: FloatingActionButton(
-        onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) => CreateTask())),
+        backgroundColor: Theme.of(context).primaryColor,
+        onPressed: () =>  Navigator.pushNamed(context, Routes.createTask),
         tooltip: 'Create a new todo item',
         child: Icon(
           Icons.library_add,
@@ -91,6 +80,7 @@ class _PrimaryFabState extends State<PrimaryFab> with SingleTickerProviderStateM
   Widget newGroup(){
     return Container(
       child: FloatingActionButton(
+        backgroundColor: Theme.of(context).primaryColor,
         onPressed: () => showDialog(
           context: context,
           builder: (BuildContext context){
@@ -119,33 +109,19 @@ class _PrimaryFabState extends State<PrimaryFab> with SingleTickerProviderStateM
     );
   }
 
-  Widget newFilter(){
+  Widget userSettings(){
     return Container(
       child: FloatingActionButton(
-        onPressed: () => showDialog(
-          context: context,
-          builder: (BuildContext context){
-            return AlertDialog(
-              title: Text("Feature Not Available"),
-              content: Text("Cant create Filters yet. Coming Soon..."),
-              actions: [
-                FlatButton(
-                  child: Text("Ok"),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                )
-              ],
-            );
-          }
-        ),
-        tooltip: 'Create a new filter',
+        backgroundColor: Theme.of(context).primaryColor,
+        onPressed: () =>  Navigator.pushNamed(context, Routes.userSettings),
+        tooltip: 'Go to user settings',
         child: Icon(
-          Icons.storage,
+          Icons.settings,
           color: Colors.white,
         ),
+        
         mini: true,
-        heroTag: 'NewFilterButton',
+        heroTag: 'UserSettingsButton',
       )
     );
   }
@@ -153,7 +129,7 @@ class _PrimaryFabState extends State<PrimaryFab> with SingleTickerProviderStateM
   Widget toggle(){
     return Container(
       child: FloatingActionButton(
-        backgroundColor: _buttonColor.value,
+        backgroundColor: Theme.of(context).primaryColor,
         onPressed: animate,
         tooltip: 'Open/Close Menu',
         child: AnimatedIcon(
@@ -174,7 +150,7 @@ class _PrimaryFabState extends State<PrimaryFab> with SingleTickerProviderStateM
         Transform(
           transform: Matrix4.translationValues(
             0, 
-            _translateButton.value * 2.68, 
+            _translateButton.value * 2.54, 
             0.0
           ),
           child: newTask(),
@@ -183,18 +159,19 @@ class _PrimaryFabState extends State<PrimaryFab> with SingleTickerProviderStateM
         Transform(
           transform: Matrix4.translationValues(
             0.0, 
-            _translateButton.value * 1.88,
+            _translateButton.value * 1.65,
             0.0
           ),
           child: newGroup(),
         ),
+
         Transform(
           transform: Matrix4.translationValues(
             0.0,
             _translateButton.value,
             0
           ),
-          child: newFilter(),
+          child: userSettings(),
         ),
 
         toggle(),

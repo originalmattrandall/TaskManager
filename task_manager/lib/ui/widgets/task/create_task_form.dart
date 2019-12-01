@@ -65,38 +65,40 @@ class _CreateTaskFormState extends State<CreateTaskForm> {
                         ),
                         validator: (value) {
                           if (value.isEmpty) {
-                            return "Please enter a title";
+                            return "-_- Just add a title...";
                           }
                           return null;
                         },
                       ),
+
                       Padding(
-                        padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                        child: TextFormField(
-                          minLines: 1,
-                          maxLines: 6,
-                          controller: _descriptionController,
-                          style: TextStyle(
-                            color: Colors.lightBlue,
-                            decoration: TextDecoration.none
-                          ),
-                          decoration: InputDecoration(
-                          labelStyle: TextStyle(color: Colors.lightBlue),
-                          hintStyle: TextStyle(color: Colors.lightBlue[100]),
-                            labelText: "Description",
-                            hintText: "Descrption of the task",
-                            enabledBorder: underLineBorder,
-                            focusedBorder: underLineBorder,
-                            errorBorder: underLineBorder,
-                            focusedErrorBorder: underLineBorder
-                          ),
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return "Please enter a description";
-                            }
-                            return null;
-                          },
+                        padding: EdgeInsets.only(bottom: 20),
+                      ),
+
+                      TextFormField(
+                        minLines: 1,
+                        maxLines: 6,
+                        controller: _descriptionController,
+                        style: TextStyle(
+                          color: Colors.lightBlue,
+                          decoration: TextDecoration.none
                         ),
+                        decoration: InputDecoration(
+                        labelStyle: TextStyle(color: Colors.lightBlue),
+                        hintStyle: TextStyle(color: Colors.lightBlue[100]),
+                          labelText: "Description",
+                          hintText: "Descrption of the task",
+                          enabledBorder: underLineBorder,
+                          focusedBorder: underLineBorder,
+                          errorBorder: underLineBorder,
+                          focusedErrorBorder: underLineBorder
+                        ),
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return "This will help you remember what to do";
+                          }
+                          return null;
+                        },
                       ),
                     ],
                   ),

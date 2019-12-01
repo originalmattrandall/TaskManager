@@ -12,10 +12,10 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: Routes.routes,
       theme: ThemeData(
-        primaryColor: Colors.lightBlue,
-        accentColor: Colors.lightBlue[300],
+        primaryColor: Colors.lightBlue[300],
+        accentColor: Colors.lightBlue,
         backgroundColor: Colors.white,
-      ),      
+      ),
     );
   }
 }
