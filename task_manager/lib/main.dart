@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
         primaryColor: Colors.lightBlue[300],
         accentColor: Colors.lightBlue,
         backgroundColor: Colors.white,
-      ),      
+      ),
     );
   }
 }

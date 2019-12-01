@@ -32,24 +32,24 @@ class _UserSettingsState extends State<UserSettings> {
         ),
         body: Column(
             children: [ 
-              SettingsSwitch(
-                title: "Archive Tasks Before Deleting",
-                future: _userPreferences.getArchiveBeforeDelete(),
-                function: (value) async {
-                  setState(() {
-                    _userPreferences.setArchiveBeforeDelete(value);
-                  });
-                },
-              ),
-              SettingsSwitch(
-                title: "Turn Off Notifications",
-                future: _userPreferences.getTurnOffNotifications(),
-                function: (value) async {
-                  setState(() {
-                    _userPreferences.setTurnOffNotifications(value);
-                  });
-                },
-              ),
+              // SettingsSwitch(
+              //   title: "Archive Tasks Before Deleting",
+              //   future: _userPreferences.getArchiveBeforeDelete(),
+              //   function: (value) async {
+              //     setState(() {
+              //       _userPreferences.setArchiveBeforeDelete(value);
+              //     });
+              //   },
+              // ),
+              // SettingsSwitch(
+              //   title: "Turn Off Notifications",
+              //   future: _userPreferences.getTurnOffNotifications(),
+              //   function: (value) async {
+              //     setState(() {
+              //       _userPreferences.setTurnOffNotifications(value);
+              //     });
+              //   },
+              // ),
             ],
           ),
         ),
