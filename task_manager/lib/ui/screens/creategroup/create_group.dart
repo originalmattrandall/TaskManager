@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:task_manager/ui/widgets/task/create_task_form.dart';
+import 'package:task_manager/ui/widgets/group/create_group_form.dart';
 
-class CreateTask extends StatefulWidget {
-  CreateTask({Key key}) : super(key: key);
+class CreateGroup extends StatelessWidget {
+  const CreateGroup({Key key}) : super(key: key);
 
-  _CreateTaskState createState() => _CreateTaskState();
-}
-
-class _CreateTaskState extends State<CreateTask> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -26,7 +22,7 @@ class _CreateTaskState extends State<CreateTask> {
           elevation: 0.0,    
           backgroundColor: Colors.white,
         ),
-        body: CreateTaskForm(),
+        body: CreateGroupForm(),
         ),
     );
   }

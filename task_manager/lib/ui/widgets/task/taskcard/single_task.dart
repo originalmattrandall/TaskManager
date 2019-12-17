@@ -23,7 +23,7 @@ class _SingleTaskState extends State<SingleTask> {
 
     final double outerContainerWidth = MediaQuery.of(context).size.width*0.8;
 
-    return Container(
+  return Container(
       padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
       width: outerContainerWidth,
       child: Row(
