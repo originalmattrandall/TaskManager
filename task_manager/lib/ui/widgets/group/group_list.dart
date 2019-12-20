@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:task_manager/data/models/task.dart';
-import 'package:task_manager/data/bloc/task_bloc.dart';
-import 'package:task_manager/ui/widgets/task/taskcard/single_task_slidable.dart';
+import 'package:task_manager/data/bloc/group_bloc.dart';
+import 'package:task_manager/data/models/group.dart';
 
-class TaskList extends StatelessWidget{
+class GroupList extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
-    taskBloc.fetchAllTasks(); // Used to load the initial list
+    groupBloc.fetchAllGroups(); // Used to load the initial list
     return Material(
       child: StreamBuilder(
-        stream: taskBloc.allTasks,
-        builder: (context, AsyncSnapshot<List<TaskModel>> snapshot){
+        stream: groupBloc.allTasks,
+        builder: (context, AsyncSnapshot<List<GroupModel>> snapshot){
           if(snapshot.hasData){
             return buildList(context, snapshot);
           }
@@ -20,7 +19,7 @@ class TaskList extends StatelessWidget{
     );
   }
 
-  Widget buildList(BuildContext context, AsyncSnapshot<List<TaskModel>> snapshot){
+  Widget buildList(BuildContext context, AsyncSnapshot<List<GroupModel>> snapshot){
     return Container(
       color: Colors.white,
       child: snapshot.data.isEmpty
@@ -32,11 +31,10 @@ class TaskList extends StatelessWidget{
         scrollDirection: Axis.vertical,
         itemCount: snapshot.data.length,
         itemBuilder: (BuildContext context, int index) {
-          return SlidableSingleTask(
-            id: snapshot.data[index].id,
-            title: snapshot.data[index].name ?? "",
-            description: snapshot.data[index].description ?? "",
-            isComplete: snapshot.data[index].isComplete ?? 0,
+          return Text(
+            snapshot.data[index].id.toString() + 
+            snapshot.data[index].name + 
+            snapshot.data[index].description,
           );
         },
         padding: EdgeInsets.fromLTRB(0, 0, 0, 80),

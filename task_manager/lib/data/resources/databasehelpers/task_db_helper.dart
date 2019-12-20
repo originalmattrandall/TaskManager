@@ -1,7 +1,5 @@
 import 'package:task_manager/data/models/task.dart';
-
 import 'db_helper.dart';
-
 import 'package:sqflite/sqflite.dart';
 
 class TaskDBHelper{

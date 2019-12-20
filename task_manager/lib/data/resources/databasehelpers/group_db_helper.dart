@@ -1,3 +1,5 @@
+import 'package:task_manager/data/models/group.dart';
+
 import 'db_helper.dart';
 
 import 'package:sqflite/sqflite.dart';
@@ -15,15 +17,28 @@ class GroupDBHelper{
   final dbHelper = DBHelper.instance;
 
   // Inserts a row and returns the inserted rows id.
-  Future<int> insert(Map<String, dynamic> row) async{
-    Database db = await dbHelper.database;
-    return await db.insert(tableName, row);
+  Future<void> insert(GroupModel group) async{
+    Database db = await DBHelper.instance.database;
+    await db.insert(
+      tableName, 
+      group.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace
+    );
   }
 
   // Returns all of the rows in the database
-  Future<List<Map<String, dynamic>>> queryAllRows() async {
-    Database db = await dbHelper.database;
-    return await db.query(tableName);
+  Future<List<GroupModel>> queryAllRows() async {
+    Database db = await DBHelper.instance.database;
+    final List<Map<String, dynamic>> maps = await db.query(tableName);
+
+    return List.generate(maps.length, (i) {
+        return GroupModel(
+          id: maps[i][id],
+          name: maps[i][name],
+          description: maps[i][description],
+          dueDate: maps[i][dueDate],
+        );
+      });
   }
 
   // Updates a row in the database where the id is set in the model class
