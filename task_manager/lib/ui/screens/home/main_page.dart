@@ -15,7 +15,7 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
 
-  var _listItems = ["All Tasks", "All Groups"];
+  var _listItems = ["All Tasks"];
   String _currentFilter = "All Tasks";
 
   @override
@@ -52,22 +52,17 @@ class _MainPageState extends State<MainPage> {
                 },
               ),
             ),
-        ),
+          ),
           elevation: 0.0,
         ),
-        body: buildBody(context), // TODO: Filter this based on FilterDropdown value
+        body: buildBody(),
         floatingActionButton: PrimaryFab(),
       ),
     );
   }
 
-  Widget buildBody(BuildContext context){
+  Widget buildBody(){
     Widget child = TaskList();
-    if(_currentFilter == "All Tasks"){
-      child = TaskList();
-    } else if (_currentFilter == "All Groups"){
-      child = GroupList();
-    }
 
     return child;
   }
