@@ -1,4 +1,5 @@
 import 'package:task_manager/data/models/task.dart';
+import 'package:task_manager/data/resources/databasehelpers/tags_db_helper.dart';
 import 'db_helper.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -18,9 +19,9 @@ class TaskDBHelper{
     static final isArchived = "is_archived";
 
     // Inserts a row and returns the inserted rows id.
-    Future<void> insert(TaskModel task) async{
+    Future<int> insert(TaskModel task) async{
       Database db = await DBHelper.instance.database;
-      await db.insert(
+      return await db.insert(
         tableName, 
         task.toMap(),
         conflictAlgorithm: ConflictAlgorithm.replace
@@ -30,22 +31,38 @@ class TaskDBHelper{
     // Returns all of the rows in the database
     Future<List<TaskModel>> queryAllRows() async {
       Database db = await DBHelper.instance.database;
-      final List<Map<String, dynamic>> maps = await db.query(tableName);
+      final List<Map<String, dynamic>> dbTasks = await db.query(tableName);
+      final List<Map<String, dynamic>> dbTags = await db.query(TagDBHelper.tableName);
 
-      return List.generate(maps.length, (i) {
-        return TaskModel(
-          id: maps[i][id],
-          groupId: maps[i][groupId],
-          listId: maps[i][listId],
-          priorityId: maps[i][priorityId],
-          name: maps[i][name],
-          description: maps[i][description],
-          hasList: maps[i][hasList],
-          hasReminder: maps[i][hasReminder],
-          isComplete: maps[i][isComplete],
-          isArchived: maps[i][isArchived]
+      var tasks = new List<TaskModel>();
+
+      for(var task in dbTasks){
+        var tags = new List<String>();
+
+        for(var tag in dbTags){
+          if(task[id] == tag[TagDBHelper.taskId]){
+            tags.add(tag[TagDBHelper.name]);
+          }
+        }
+
+        var newTask = new TaskModel(
+          id: task[id],
+          groupId: task[groupId],
+          listId: task[listId],
+          priorityId: task[priorityId],
+          name: task[name],
+          description: task[description],
+          hasList: task[hasList],
+          hasReminder: task[hasReminder],
+          isComplete: task[isComplete],
+          isArchived: task[isArchived],
+          tags: tags
         );
-      });
+
+        tasks.add(newTask);
+      }
+
+      return tasks;
     }
 
     // Updates a row in the database where the id is set in the model class

@@ -11,6 +11,7 @@ class TaskModel{
   int hasReminder;
   int isComplete;
   int isArchived;
+  List<String> tags = new List<String>();
 
   TaskModel ({
     this.id, 
@@ -22,7 +23,8 @@ class TaskModel{
     this.hasList,
     this.hasReminder,
     this.isComplete,
-    this.isArchived
+    this.isArchived,
+    this.tags
     });
 
     Map<String, dynamic> toMap(){

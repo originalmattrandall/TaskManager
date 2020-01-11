@@ -77,18 +77,18 @@ class _PrimaryFabState extends State<PrimaryFab> with SingleTickerProviderStateM
     );
   }
 
-  Widget newGroup(){
+  Widget newFilter(){
     return Container(
       child: FloatingActionButton(
         backgroundColor: Theme.of(context).primaryColor,
-        onPressed: () =>  Navigator.pushNamed(context, Routes.createGroup),
-        tooltip: 'Create a new group',
+        onPressed: () =>  Navigator.pushNamed(context, Routes.createFilter),
+        tooltip: 'Create a new filter',
         child: Icon(
           Icons.library_books,
           color: Colors.white,
           ),
         mini: true,
-        heroTag: 'NewGroupButton',
+        heroTag: 'NewFilterButton',
       )
     );
   }
@@ -146,7 +146,7 @@ class _PrimaryFabState extends State<PrimaryFab> with SingleTickerProviderStateM
             _translateButton.value * 1.65,
             0.0
           ),
-          child: newGroup(),
+          child: newFilter(),
         ),
 
         Transform(

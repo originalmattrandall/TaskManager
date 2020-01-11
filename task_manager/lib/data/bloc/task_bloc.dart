@@ -14,9 +14,10 @@ class TaskBloc{
     _taskFetcher.sink.add(taskModel);
   }
 
-  insertSingleTask(TaskModel task) async {
-    await _repository.insertSingleTask(task);
+  Future<int> insertSingleTask(TaskModel task) async {
+    var id = await _repository.insertSingleTask(task);
     fetchAllTasks();
+    return id;
   }
 
   updateSingleTask(Map<String, dynamic> row) async {

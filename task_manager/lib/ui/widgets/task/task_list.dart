@@ -9,7 +9,7 @@ class TaskList extends StatelessWidget{
     taskBloc.fetchAllTasks(); // Used to load the initial list
     return Material(
       child: StreamBuilder(
-        stream: taskBloc.allTasks,
+        stream: taskBloc.allTasks, // TODO: Change this to be based on the filter
         builder: (context, AsyncSnapshot<List<TaskModel>> snapshot){
           if(snapshot.hasData){
             return buildList(context, snapshot);
@@ -33,13 +33,9 @@ class TaskList extends StatelessWidget{
         itemCount: snapshot.data.length,
         itemBuilder: (BuildContext context, int index) {
           return SlidableSingleTask(
-            id: snapshot.data[index].id,
-            title: snapshot.data[index].name ?? "",
-            description: snapshot.data[index].description ?? "",
-            isComplete: snapshot.data[index].isComplete ?? 0,
+            task: snapshot.data[index]
           );
         },
-        padding: EdgeInsets.fromLTRB(0, 0, 0, 80),
       ),
     );
   }

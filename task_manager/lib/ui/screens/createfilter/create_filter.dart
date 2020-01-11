@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:task_manager/ui/widgets/group/create_group_form.dart';
+import 'package:task_manager/data/resources/databasehelpers/tags_db_helper.dart';
+import 'package:task_manager/ui/widgets/filter/create_filter_form.dart';
 
-class CreateGroup extends StatelessWidget {
-  const CreateGroup({Key key}) : super(key: key);
+class CreateFilter extends StatefulWidget {
+  CreateFilter({Key key}) : super(key: key);
 
+  _CreateFilterState createState() => _CreateFilterState();
+}
+
+class _CreateFilterState extends State<CreateFilter> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -22,7 +27,7 @@ class CreateGroup extends StatelessWidget {
           elevation: 0.0,    
           backgroundColor: Colors.white,
         ),
-        body: CreateGroupForm(),
+        body: CreateFilterForm(),
         ),
     );
   }

@@ -1,7 +1,8 @@
+import 'package:task_manager/data/resources/databasehelpers/tags_db_helper.dart';
+
 import 'listitem_db_helper.dart';
 import 'reminder_db_helper.dart';
 import 'task_db_helper.dart';
-import 'group_db_helper.dart';
 import 'priority_db_helper.dart';
 
 import 'dart:io';
@@ -33,11 +34,12 @@ class DBHelper{
 
       return await openDatabase(path,
         version: _databaseVersion,
-        onCreate: _onCreate
+        onCreate: _onCreate,
+        onUpgrade: _onUpgrade
       );
     }
 
-    // Creates all the tables for the database
+    /// Creates all the tables for the database
     Future _onCreate(Database db, int version) async{
       // Creates the task table
       await db.execute('''
@@ -52,16 +54,6 @@ class DBHelper{
           ${TaskDBHelper.hasReminder} INTEGER,
           ${TaskDBHelper.isComplete} INTEGER,
           ${TaskDBHelper.isArchived} INTEGER
-        )
-      ''');
-
-      // Creates the group table
-      await db.execute('''
-        CREATE TABLE ${GroupDBHelper.tableName} (
-          ${GroupDBHelper.id} INTEGER PRIMARY KEY,
-          ${GroupDBHelper.name} TEXT,
-          ${GroupDBHelper.description} TEXT,
-          ${GroupDBHelper.dueDate} TEXT
         )
       ''');
 
@@ -94,5 +86,18 @@ class DBHelper{
           ${ReminderDBHelper.dayOfWeek} INTEGER
         )
       ''');
+
+      // Creates the Tags table
+      await db.execute('''
+        CREATE TABLE ${TagDBHelper.tableName} (
+          ${TagDBHelper.id} INTEGER PRIMARY KEY,
+          ${TagDBHelper.name} TEXT,
+          ${TagDBHelper.taskId} INTEGER
+        )
+      ''');
+    }
+
+    /// On Upgrade
+    Future _onUpgrade(Database db, int oldVersion, int newVersion) async{
     }
 }

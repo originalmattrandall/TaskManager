@@ -1,7 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:task_manager/data/bloc/task_bloc.dart';
 import 'package:task_manager/data/models/task.dart';
+import 'package:task_manager/data/resources/databasehelpers/tags_db_helper.dart';
 
 class CreateTaskForm extends StatefulWidget {
   CreateTaskForm({Key key}) : super(key: key);
@@ -14,6 +14,9 @@ class _CreateTaskFormState extends State<CreateTaskForm> {
   final _formKey = GlobalKey<FormState>();
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
+  final _tagController = TextEditingController();
+
+  final _tagDbHelper = TagDBHelper();
 
   UnderlineInputBorder underLineBorder = const UnderlineInputBorder(
     borderSide: BorderSide(
@@ -100,6 +103,24 @@ class _CreateTaskFormState extends State<CreateTaskForm> {
                           return null;
                         },
                       ),
+
+                      TextFormField(
+                        controller: _tagController,
+                        style: TextStyle(
+                          color: Colors.lightBlue,
+                          decoration: TextDecoration.none
+                        ),
+                        decoration: InputDecoration(
+                          labelStyle: TextStyle(color: Colors.lightBlue),
+                          hintStyle: TextStyle(color: Colors.lightBlue[100]),
+                          labelText: "Tags",
+                          hintText: "Add one or more tags for filtering",
+                          enabledBorder: underLineBorder,
+                          focusedBorder: underLineBorder,
+                          errorBorder: underLineBorder,
+                          focusedErrorBorder: underLineBorder
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -116,14 +137,35 @@ class _CreateTaskFormState extends State<CreateTaskForm> {
           textColor: Colors.white,
           onPressed: () {
             if(_formKey.currentState.validate()){
+
               TaskModel insertThisTask = TaskModel(
                 name: _titleController.text,
                 description: _descriptionController.text,
               );
-              taskBloc.insertSingleTask(insertThisTask);
-              _titleController.clear();
-              _descriptionController.clear();
-              Navigator.pop(context);
+
+              var taskResult = taskBloc.insertSingleTask(insertThisTask);
+
+              taskResult.then((id) {
+                print(id.toString());
+
+                var tags = _tagController.text.split(new RegExp(r"[^\w]"));
+
+                for(var tag in tags){
+                  if(tag.isNotEmpty){
+                    var row = {
+                      TagDBHelper.taskId : id,
+                      TagDBHelper.name : tag
+                    };
+
+                    _tagDbHelper.insert(row);
+                  }
+                }
+
+                _tagController.clear();
+                _titleController.clear();
+                _descriptionController.clear();
+                Navigator.pop(context);
+              });
             }
           },
           child: Text(

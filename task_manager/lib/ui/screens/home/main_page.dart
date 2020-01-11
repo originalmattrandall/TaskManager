@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:task_manager/ui/widgets/general/filter_dropdown.dart';
 import 'package:task_manager/ui/widgets/general/primary_fab.dart';
-import 'package:task_manager/ui/widgets/group/group_list.dart';
 import 'package:task_manager/ui/widgets/task/task_list.dart';
 
 class MainPage extends StatefulWidget {
@@ -55,15 +53,9 @@ class _MainPageState extends State<MainPage> {
           ),
           elevation: 0.0,
         ),
-        body: buildBody(),
+        body: TaskList(),
         floatingActionButton: PrimaryFab(),
       ),
     );
-  }
-
-  Widget buildBody(){
-    Widget child = TaskList();
-
-    return child;
   }
 }
