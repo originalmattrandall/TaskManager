@@ -1,4 +1,5 @@
 import 'package:task_manager/data/resources/databasehelpers/tags_db_helper.dart';
+import 'package:task_manager/data/resources/databasehelpers/task_tag_db_helper.dart';
 
 import 'listitem_db_helper.dart';
 import 'reminder_db_helper.dart';
@@ -12,7 +13,7 @@ import 'package:path_provider/path_provider.dart';
 
 class DBHelper{
     static final _databaseName = ".db";
-    static final _databaseVersion = 1;
+    static final _databaseVersion = 2;
 
     DBHelper._privateConstructor();
     static final DBHelper instance = DBHelper._privateConstructor();
@@ -43,7 +44,7 @@ class DBHelper{
     Future _onCreate(Database db, int version) async{
       // Creates the task table
       await db.execute('''
-        CREATE TABLE ${TaskDBHelper.tableName} (
+        CREATE TABLE IF NOT EXISTS ${TaskDBHelper.tableName} (
           ${TaskDBHelper.id} INTEGER PRIMARY KEY,
           ${TaskDBHelper.groupId} INTEGER,
           ${TaskDBHelper.listId} INTEGER,
@@ -59,7 +60,7 @@ class DBHelper{
 
       // Creates the task list items table
       await db.execute('''
-        CREATE TABLE ${ListItemDBHelper.tableName} (
+        CREATE TABLE IF NOT EXISTS ${ListItemDBHelper.tableName} (
           ${ListItemDBHelper.id} INTEGER PRIMARY KEY,
           ${ListItemDBHelper.taskId} INTEGER,
           ${ListItemDBHelper.name} INTEGER,
@@ -69,7 +70,7 @@ class DBHelper{
 
       // Creates the table for the priority levels
       await db.execute('''
-        CREATE TABLE ${PriorityDBHelper.tableName} (
+        CREATE TABLE IF NOT EXISTS ${PriorityDBHelper.tableName} (
           ${PriorityDBHelper.id} INTEGER PRIMARY KEY,
           ${PriorityDBHelper.name} TEXT,
           ${PriorityDBHelper.colorCode} TEXT,
@@ -78,7 +79,7 @@ class DBHelper{
       ''');
 
       await db.execute('''
-        CREATE TABLE ${ReminderDBHelper.tableName} (
+        CREATE TABLE IF NOT EXISTS ${ReminderDBHelper.tableName} (
           ${ReminderDBHelper.id} INTEGER PRIMARY KEY,
           ${ReminderDBHelper.taskId} INTEGER,
           ${ReminderDBHelper.type} TEXT,
@@ -89,15 +90,47 @@ class DBHelper{
 
       // Creates the Tags table
       await db.execute('''
-        CREATE TABLE ${TagDBHelper.tableName} (
+        CREATE TABLE IF NOT EXISTS ${TagDBHelper.tableName} (
           ${TagDBHelper.id} INTEGER PRIMARY KEY,
-          ${TagDBHelper.name} TEXT,
-          ${TagDBHelper.taskId} INTEGER
+          ${TagDBHelper.name} TEXT
+        )
+      ''');
+
+      await db.execute('''
+        CREATE TABLE IF NOT EXISTS ${TaskTagDbHelper.tableName} (
+          ${TaskTagDbHelper.id} INTEGER PRIMARY KEY,
+          ${TaskTagDbHelper.taskId} INTEGER,
+          ${TaskTagDbHelper.tagId} INTEGER
         )
       ''');
     }
 
     /// On Upgrade
     Future _onUpgrade(Database db, int oldVersion, int newVersion) async{
+      await db.execute('''
+        DROP TABLE IF EXISTS ${TaskDBHelper.tableName};
+      ''');
+
+      await db.execute('''
+        DROP TABLE IF EXISTS ${ListItemDBHelper.tableName};
+      ''');
+
+      await db.execute('''
+        DROP TABLE IF EXISTS ${PriorityDBHelper.tableName};
+      ''');
+
+      await db.execute('''
+        DROP TABLE IF EXISTS ${ReminderDBHelper.tableName};
+      ''');
+
+      await db.execute('''
+        DROP TABLE IF EXISTS ${TagDBHelper.tableName};
+      ''');
+
+            await db.execute('''
+        DROP TABLE IF EXISTS ${TaskTagDbHelper.tableName};
+      ''');
+
+      _onCreate(db, _databaseVersion);
     }
 }

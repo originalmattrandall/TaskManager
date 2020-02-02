@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:task_manager/data/bloc/task_bloc.dart';
 import 'package:task_manager/data/models/task.dart';
 import 'package:task_manager/data/resources/databasehelpers/tags_db_helper.dart';
+import 'package:task_manager/data/resources/databasehelpers/task_tag_db_helper.dart';
+import 'package:task_manager/ui/widgets/tag/tag.dart';
+
+// TODO: Create a method to generate the input decoration repeated in this class
 
 class CreateTaskForm extends StatefulWidget {
   CreateTaskForm({Key key}) : super(key: key);
@@ -14,20 +18,35 @@ class _CreateTaskFormState extends State<CreateTaskForm> {
   final _formKey = GlobalKey<FormState>();
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
-  final _tagController = TextEditingController();
+  final _tagListController = TextEditingController();
 
   final _tagDbHelper = TagDBHelper();
+  final _tagTaskDbHelper = TaskTagDbHelper();
 
-  UnderlineInputBorder underLineBorder = const UnderlineInputBorder(
-    borderSide: BorderSide(
-      color: Colors.lightBlue
-    )
-  );
+  var tagsForThisTask = new List<String>();
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _descriptionController.dispose();
+    _tagListController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
 
+    var primaryColor = Theme.of(context).primaryColor;
+    var secondaryColor = Theme.of(context).backgroundColor;
+    var hintColor = Theme.of(context).hintColor;
+    
     final double outerContainerWidth = MediaQuery.of(context).size.width*0.86;
+
+    UnderlineInputBorder underLineBorder = UnderlineInputBorder(
+      borderSide: BorderSide(
+        color: primaryColor,
+      )
+    );
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -41,7 +60,7 @@ class _CreateTaskFormState extends State<CreateTaskForm> {
                   child: Text(
                     "Create a New Task",
                     style: TextStyle(
-                      color: Colors.lightBlue,
+                      color: primaryColor,
                       fontSize: 24,
                     ),
                   ),            
@@ -53,12 +72,12 @@ class _CreateTaskFormState extends State<CreateTaskForm> {
                       TextFormField(
                         controller: _titleController,
                         style: TextStyle(
-                          color: Colors.lightBlue,
+                          color: primaryColor,
                           decoration: TextDecoration.none
                         ),
                         decoration: InputDecoration(
-                          labelStyle: TextStyle(color: Colors.lightBlue),
-                          hintStyle: TextStyle(color: Colors.lightBlue[100]),
+                          labelStyle: TextStyle(color: primaryColor),
+                          hintStyle: TextStyle(color: hintColor),
                           labelText: "Title",
                           hintText: "Title of the Task",
                           enabledBorder: underLineBorder,
@@ -83,12 +102,12 @@ class _CreateTaskFormState extends State<CreateTaskForm> {
                         maxLines: 6,
                         controller: _descriptionController,
                         style: TextStyle(
-                          color: Colors.lightBlue,
+                          color: primaryColor,
                           decoration: TextDecoration.none
                         ),
                         decoration: InputDecoration(
-                        labelStyle: TextStyle(color: Colors.lightBlue),
-                        hintStyle: TextStyle(color: Colors.lightBlue[100]),
+                          labelStyle: TextStyle(color: primaryColor),
+                          hintStyle: TextStyle(color: hintColor),
                           labelText: "Description",
                           hintText: "Descrption of the task",
                           enabledBorder: underLineBorder,
@@ -104,23 +123,52 @@ class _CreateTaskFormState extends State<CreateTaskForm> {
                         },
                       ),
 
-                      TextFormField(
-                        controller: _tagController,
-                        style: TextStyle(
-                          color: Colors.lightBlue,
-                          decoration: TextDecoration.none
-                        ),
-                        decoration: InputDecoration(
-                          labelStyle: TextStyle(color: Colors.lightBlue),
-                          hintStyle: TextStyle(color: Colors.lightBlue[100]),
-                          labelText: "Tags",
-                          hintText: "Add one or more tags for filtering",
-                          enabledBorder: underLineBorder,
-                          focusedBorder: underLineBorder,
-                          errorBorder: underLineBorder,
-                          focusedErrorBorder: underLineBorder
-                        ),
+                      Row(
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: TextField(
+                              controller: _tagListController,
+                              decoration: InputDecoration(
+                                labelStyle: TextStyle(color: primaryColor),
+                                hintStyle: TextStyle(color: hintColor),
+                                labelText: "Tags",
+                                hintText: "Dont forget to click Add Tag",
+                                enabledBorder: underLineBorder,
+                                focusedBorder: underLineBorder,
+                                errorBorder: underLineBorder,
+                                focusedErrorBorder: underLineBorder
+                              ),
+                            ),
+                          ),
+
+                          Expanded(
+                            flex: 1,
+                            child: FlatButton(
+                              child: Text(
+                                "Add Tag",
+                                style: TextStyle(
+                                  color: secondaryColor
+                                ),
+                              ),
+                              color: primaryColor,
+                              onPressed: (){
+                                setState(() {
+                                  tagsForThisTask.add(_tagListController.value.text);
+                                  _tagListController.clear();
+                                });
+                              },
+                            ),
+                          ),
+                        ],
                       ),
+
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 30),
+                      ),
+
+                      // TODO: Improvement opportunity - Make the tags removable when creating a task
+                      Tag().getTagWidgets(tagsForThisTask),
                     ],
                   ),
                 ),
@@ -133,8 +181,8 @@ class _CreateTaskFormState extends State<CreateTaskForm> {
         width: double.infinity,
         height: 40,
         child: MaterialButton(
-          color: Colors.lightBlue,
-          textColor: Colors.white,
+          color: primaryColor,
+          textColor: secondaryColor,
           onPressed: () {
             if(_formKey.currentState.validate()){
 
@@ -146,22 +194,25 @@ class _CreateTaskFormState extends State<CreateTaskForm> {
               var taskResult = taskBloc.insertSingleTask(insertThisTask);
 
               taskResult.then((id) {
-                print(id.toString());
 
-                var tags = _tagController.text.split(new RegExp(r"[^\w]"));
-
-                for(var tag in tags){
+                for(var tag in tagsForThisTask){
                   if(tag.isNotEmpty){
-                    var row = {
-                      TagDBHelper.taskId : id,
+                    var tagRow = {
                       TagDBHelper.name : tag
                     };
 
-                    _tagDbHelper.insert(row);
+                    _tagDbHelper.upsert(tagRow).then(
+                      (value) {
+                        var taskTagRow = {
+                          TaskTagDbHelper.tagId : value,
+                          TaskTagDbHelper.taskId : id
+                        };
+                        _tagTaskDbHelper.insert(taskTagRow);
+                      }
+                    );
                   }
                 }
 
-                _tagController.clear();
                 _titleController.clear();
                 _descriptionController.clear();
                 Navigator.pop(context);

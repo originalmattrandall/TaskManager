@@ -18,7 +18,7 @@ class Repository{
   // Tags
   final tagdbHelper = new TagDBHelper();
 
-  Future<int> insertSingleTag(row) => tagdbHelper.insert(row);
+  Future<int> insertSingleTag(row) => tagdbHelper.upsert(row);
 
   // Priorities
 

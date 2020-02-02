@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:task_manager/data/bloc/task_bloc.dart';
 import 'package:task_manager/data/models/task.dart';
 import 'package:task_manager/data/resources/databasehelpers/task_db_helper.dart';
+import 'package:task_manager/ui/widgets/tag/tag.dart';
 
 class SingleTask extends StatefulWidget {
   final TaskModel task;
@@ -15,7 +16,6 @@ class _SingleTaskState extends State<SingleTask> {
 
   @override
   Widget build(BuildContext context) {
-
     bool taskCompleted = widget.task.isComplete == 1;
 
     final double outerContainerWidth = MediaQuery.of(context).size.width*0.8;
@@ -90,7 +90,8 @@ class _SingleTaskState extends State<SingleTask> {
 
                 Align(
                   alignment: Alignment.centerLeft,
-                  child: getTagWidgets(widget.task.tags),
+                  child: widget.task.tags.length > 0 ? Tag().getTagWidgets(widget.task.tags) : Text(""),
+                  // TODO: the Empty Text widget creates empty space, fix this
                 )
 
               ],
@@ -99,30 +100,6 @@ class _SingleTaskState extends State<SingleTask> {
           )
         ]
       )
-    );
-  }
-
-  Widget getTagWidgets(List<String> tags){
-    return Wrap(
-      direction: Axis.horizontal,
-      alignment: WrapAlignment.start,
-      spacing: 5,
-      runSpacing: 5,
-      children: 
-        tags.map((tag) => Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(10.0)),
-            color: Theme.of(context).accentColor
-          ),
-          padding: EdgeInsets.fromLTRB(5.0, 1, 5.0, 1),
-          child: Text(
-            tag,          
-            style: TextStyle(
-                color: Colors.white,
-                //backgroundColor: Theme.of(context).accentColor,
-              ),
-          )
-      )).toList()      
     );
   }
 }

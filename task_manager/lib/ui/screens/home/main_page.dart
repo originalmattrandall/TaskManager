@@ -37,7 +37,7 @@ class _MainPageState extends State<MainPage> {
                     child: Text(
                       item,
                       style: TextStyle(
-                        color: Colors.lightBlue,
+                        color: Theme.of(context).primaryColor,
                         fontSize: 18,
                       ),
                     ),

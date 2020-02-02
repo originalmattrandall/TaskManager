@@ -6,16 +6,34 @@ class TagDBHelper{
 
   // Column Names for the Task table
   static final id = "id";
-  static final taskId = "task_id";
   static final name = "name";
 
   // Reference to our single dbhelper
   final dbHelper = DBHelper.instance;
 
-  // Inserts a row and returns the inserted rows id.
-  Future<int> insert(Map<String, dynamic> row) async{
+  // Inserts a row and returns the inserted rows id, Only inserts rows where the name is unique
+  Future<int> upsert(Map<String, dynamic> row) async{
     Database db = await dbHelper.database;
-    return await db.insert(tableName, row);
+
+    int length = 0;
+    await queryRowsByName(row["name"])
+    .then(
+      (value) {
+        length = value.length;
+      }
+    );
+
+    if(length > 0){
+      return db.update(
+        tableName, 
+        row,
+        where: "name = ?",
+        whereArgs: [row["name"]]
+      );
+    }
+    else{
+      return db.insert(tableName, row);
+    }
   }
 
   // Returns all of the rows in the database
@@ -24,13 +42,32 @@ class TagDBHelper{
     return await db.query(tableName);
   }
 
-  // Updates a row in the database where the id is set in the model class
-  Future<List<Map<String, dynamic>>> queryByTaskId(int id) async {
+  Future<List<Map<String, dynamic>>> queryByIds(List<int> ids) async{
     Database db = await dbHelper.database;
-    return await db.query(
+    return db.query(
       tableName,
-      distinct:true,
-      where: '$taskId = ?', 
-      whereArgs: [id]);
+      where: 'id IN (${ids.join(',')})'
+      //whereArgs: ids
+    );
   }
+
+  // Returns all rows where the tag name matches the passed value
+  Future<List<Map<String, dynamic>>> queryRowsByName(String name) async{
+    Database db = await dbHelper.database;
+    return db.query(
+      tableName,
+      where: 'name = ?',
+      whereArgs: [name]
+    );
+  }
+
+  // // Updates a row in the database where the id is set in the model class
+  // Future<List<Map<String, dynamic>>> queryByTaskId(int id) async {
+  //   Database db = await dbHelper.database;
+  //   return await db.query(
+  //     tableName,
+  //     distinct:true,
+  //     where: '$taskId = ?', 
+  //     whereArgs: [id]);
+  // }
 }

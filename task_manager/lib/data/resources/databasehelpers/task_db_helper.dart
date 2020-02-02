@@ -1,5 +1,6 @@
 import 'package:task_manager/data/models/task.dart';
 import 'package:task_manager/data/resources/databasehelpers/tags_db_helper.dart';
+import 'package:task_manager/data/resources/databasehelpers/task_tag_db_helper.dart';
 import 'db_helper.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -30,20 +31,15 @@ class TaskDBHelper{
 
     // Returns all of the rows in the database
     Future<List<TaskModel>> queryAllRows() async {
+      var taskTagDbHelper = new TaskTagDbHelper();
+      var tagDbHelper = new TagDBHelper();
+      var tasks = new List<TaskModel>();
+      var tagIdsToSearch = new List<int>();
+
       Database db = await DBHelper.instance.database;
       final List<Map<String, dynamic>> dbTasks = await db.query(tableName);
-      final List<Map<String, dynamic>> dbTags = await db.query(TagDBHelper.tableName);
-
-      var tasks = new List<TaskModel>();
 
       for(var task in dbTasks){
-        var tags = new List<String>();
-
-        for(var tag in dbTags){
-          if(task[id] == tag[TagDBHelper.taskId]){
-            tags.add(tag[TagDBHelper.name]);
-          }
-        }
 
         var newTask = new TaskModel(
           id: task[id],
@@ -56,7 +52,24 @@ class TaskDBHelper{
           hasReminder: task[hasReminder],
           isComplete: task[isComplete],
           isArchived: task[isArchived],
-          tags: tags
+        );
+
+        newTask.tags = new List<String>();
+
+        final List<Map<String, dynamic>> dbTaskTags = await taskTagDbHelper.queryByTaskId(task[id]);
+
+        for(var tag in dbTaskTags){
+          tagIdsToSearch.add(tag["tag_id"]);
+        }
+
+        var tags = await tagDbHelper
+          .queryByIds(tagIdsToSearch);
+        tagIdsToSearch.clear(); // This is to make sure no other tags get added to the next Task
+
+        tags.forEach(
+          (row) {
+            newTask.tags.add(row[TagDBHelper.name]);
+          }
         );
 
         tasks.add(newTask);

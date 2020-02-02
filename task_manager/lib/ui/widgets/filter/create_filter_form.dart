@@ -22,6 +22,14 @@ class _CreateFilterFormState extends State<CreateFilterForm> {
     _tags = _tags.toSet().toList();
   }
 
+  String getInitialTag(){
+    var result = "";
+    if(_tags.length > 0)
+      result = _tags[0];
+
+    return result;
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -82,7 +90,7 @@ class _CreateFilterFormState extends State<CreateFilterForm> {
                       ),
 
                       // TODO: remove items from list when selected and add them to a section
-                      // below showing chosen tags
+                      // below showing chosen tags                  
                       DropdownButtonFormField<String>(
                         decoration: InputDecoration(
                           contentPadding: EdgeInsetsGeometry.lerp(EdgeInsets.all(0), EdgeInsets.all(1), 10),
@@ -91,7 +99,7 @@ class _CreateFilterFormState extends State<CreateFilterForm> {
                           errorBorder: underLineBorder,
                           focusedErrorBorder: underLineBorder
                         ),
-                        value: _tags[0],
+                        value: getInitialTag(),
                         items: _tags.map((String item){
                           return DropdownMenuItem(
                             value: item,
