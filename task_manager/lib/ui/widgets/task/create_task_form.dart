@@ -36,16 +36,27 @@ class _CreateTaskFormState extends State<CreateTaskForm> {
   @override
   Widget build(BuildContext context) {
 
-    var primaryColor = Theme.of(context).primaryColor;
-    var secondaryColor = Theme.of(context).backgroundColor;
-    var hintColor = Theme.of(context).hintColor;
+    final primaryColor = Theme.of(context).primaryColor;
+    final secondaryColor = Theme.of(context).backgroundColor;
+    final hintColor = Theme.of(context).hintColor;
     
     final double outerContainerWidth = MediaQuery.of(context).size.width*0.86;
 
-    UnderlineInputBorder underLineBorder = UnderlineInputBorder(
+    var underLineBorder = UnderlineInputBorder(
       borderSide: BorderSide(
         color: primaryColor,
       )
+    );
+
+    var inputDecororation = (String label, String hint) => new InputDecoration(
+      labelStyle: TextStyle(color: primaryColor),
+      hintStyle: TextStyle(color: hintColor),
+      labelText: label,
+      hintText: hint,
+      enabledBorder: underLineBorder,
+      focusedBorder: underLineBorder,
+      errorBorder: underLineBorder,
+      focusedErrorBorder: underLineBorder
     );
 
     return Scaffold(
@@ -75,16 +86,7 @@ class _CreateTaskFormState extends State<CreateTaskForm> {
                           color: primaryColor,
                           decoration: TextDecoration.none
                         ),
-                        decoration: InputDecoration(
-                          labelStyle: TextStyle(color: primaryColor),
-                          hintStyle: TextStyle(color: hintColor),
-                          labelText: "Title",
-                          hintText: "Title of the Task",
-                          enabledBorder: underLineBorder,
-                          focusedBorder: underLineBorder,
-                          errorBorder: underLineBorder,
-                          focusedErrorBorder: underLineBorder
-                        ),
+                        decoration: inputDecororation("Title", "Title of the Task"),
                         validator: (value) {
                           if (value.isEmpty) {
                             return "-_- Just add a title...";
@@ -105,16 +107,7 @@ class _CreateTaskFormState extends State<CreateTaskForm> {
                           color: primaryColor,
                           decoration: TextDecoration.none
                         ),
-                        decoration: InputDecoration(
-                          labelStyle: TextStyle(color: primaryColor),
-                          hintStyle: TextStyle(color: hintColor),
-                          labelText: "Description",
-                          hintText: "Descrption of the task",
-                          enabledBorder: underLineBorder,
-                          focusedBorder: underLineBorder,
-                          errorBorder: underLineBorder,
-                          focusedErrorBorder: underLineBorder
-                        ),
+                        decoration: inputDecororation("Description", "Description of the task"),
                         validator: (value) {
                           if (value.isEmpty) {
                             return "This will help you remember what to do";
@@ -123,22 +116,17 @@ class _CreateTaskFormState extends State<CreateTaskForm> {
                         },
                       ),
 
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 20),
+                      ),
+
                       Row(
                         children: [
                           Expanded(
                             flex: 2,
                             child: TextField(
                               controller: _tagListController,
-                              decoration: InputDecoration(
-                                labelStyle: TextStyle(color: primaryColor),
-                                hintStyle: TextStyle(color: hintColor),
-                                labelText: "Tags",
-                                hintText: "Dont forget to click Add Tag",
-                                enabledBorder: underLineBorder,
-                                focusedBorder: underLineBorder,
-                                errorBorder: underLineBorder,
-                                focusedErrorBorder: underLineBorder
-                              ),
+                              decoration: inputDecororation("Tags", "Dont forget to click Add Tag"),
                             ),
                           ),
 

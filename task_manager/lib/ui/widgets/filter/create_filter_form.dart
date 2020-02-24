@@ -10,16 +10,23 @@ class CreateFilterForm extends StatefulWidget {
 class _CreateFilterFormState extends State<CreateFilterForm> {
   
   var _tags = new List<String>();
+  var _dropDownMenuItems = List<DropdownMenuItem<String>>();
+  var _currentSelection = "";
 
   @override
   void initState() { 
     super.initState();
     TagDBHelper().queryAllRows().then((value) {
-      for(var item in value){
-        _tags.add(item[TagDBHelper.name]);
-      }
+      setState(() {
+        for(var item in value){
+          _tags.add(item[TagDBHelper.name]);
+        }
+
+        _tags = _tags.toSet().toList();
+        _dropDownMenuItems = getMenuItems(_tags);
+        _currentSelection = getInitialTag();        
+      });
     });
-    _tags = _tags.toSet().toList();
   }
 
   String getInitialTag(){
@@ -32,13 +39,17 @@ class _CreateFilterFormState extends State<CreateFilterForm> {
 
   @override
   Widget build(BuildContext context) {
+    
+    final primaryColor = Theme.of(context).primaryColor;
+    final secondaryColor = Theme.of(context).backgroundColor;
+    final hintColor = Theme.of(context).hintColor;
 
-    final _formKey = GlobalKey<FormState>();
-    final _titleController = TextEditingController();
+    final formKey = GlobalKey<FormState>();
+    final titleController = TextEditingController();
 
-    UnderlineInputBorder underLineBorder = const UnderlineInputBorder(
+    var underLineBorder = UnderlineInputBorder(
       borderSide: BorderSide(
-        color: Colors.lightBlue
+        color: primaryColor,
       )
     );
 
@@ -62,11 +73,11 @@ class _CreateFilterFormState extends State<CreateFilterForm> {
                   ),         
                 ),
                 Form(
-                  key: _formKey,            
+                  key: formKey,            
                   child: Column(          
                     children: [
                       TextFormField(
-                        controller: _titleController,
+                        controller: titleController,
                         style: TextStyle(
                           color: Colors.lightBlue,
                           decoration: TextDecoration.none
@@ -99,21 +110,12 @@ class _CreateFilterFormState extends State<CreateFilterForm> {
                           errorBorder: underLineBorder,
                           focusedErrorBorder: underLineBorder
                         ),
-                        value: getInitialTag(),
-                        items: _tags.map((String item){
-                          return DropdownMenuItem(
-                            value: item,
-                            child: Text(
-                              item,
-                              style: TextStyle(
-                                color: Colors.lightBlue,
-                                fontSize: 18,
-                              ),
-                            ),
-                          );
-                        }).toList(), 
+                        value: _currentSelection,
+                        items: _dropDownMenuItems,
                         onChanged: (String value) {
-
+                          setState(() {
+                            print(value);
+                          });
                         },
                       ),
                     ],
@@ -131,9 +133,9 @@ class _CreateFilterFormState extends State<CreateFilterForm> {
           color: Colors.lightBlue,
           textColor: Colors.white,
           onPressed: () {
-            if(_formKey.currentState.validate()){
+            if(formKey.currentState.validate()){
 
-              _titleController.clear();
+              titleController.clear();
               Navigator.pop(context);
             };
           },
@@ -143,5 +145,21 @@ class _CreateFilterFormState extends State<CreateFilterForm> {
         ),
       ),
     );
+  }
+
+  List<DropdownMenuItem> getMenuItems(List<String> list){
+    print("Inside getMenuItems");
+    return list.map((String item){
+      return DropdownMenuItem(
+        value: item,
+        child: Text(
+          item,
+          style: TextStyle(
+            color: Colors.lightBlue,
+            fontSize: 18,
+          ),
+        ),
+      );
+    }).toList();
   }
 }
