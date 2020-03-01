@@ -90,7 +90,9 @@ class _SingleTaskState extends State<SingleTask> {
 
                 Align(
                   alignment: Alignment.centerLeft,
-                  child: widget.task.tags.length > 0 ? Tag().getTagWidgets(widget.task.tags) : Text(""),
+                  child: widget.task.tags != null && widget.task.tags.length > 0 
+                    ? Tag().getTagWidgets(widget.task.tags) 
+                    : Text(""),
                   // TODO: the Empty Text widget creates empty space, fix this
                 )
 

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:task_manager/data/resources/databasehelpers/filter_db_helper.dart';
 import 'package:task_manager/data/resources/databasehelpers/tags_db_helper.dart';
+import 'package:task_manager/ui/widgets/tag/tag.dart';
 
 class CreateFilterForm extends StatefulWidget {
   CreateFilterForm({Key key}) : super(key: key);
@@ -11,35 +13,43 @@ class _CreateFilterFormState extends State<CreateFilterForm> {
   
   var _tags = new List<String>();
   var _dropDownMenuItems = List<DropdownMenuItem<String>>();
-  var _currentSelection = "";
+  var _tagsToFilterOn = List<String>();
+  var filterDbHelper = new FilterDbHelper();
+
+  List<DropdownMenuItem<String>> getMenuItems(List<String> list){
+    return list.map((String item){
+      return DropdownMenuItem(
+        value: item,
+        child: Text(
+          item,
+          style: TextStyle(
+            color: Colors.lightBlue,
+            fontSize: 18,
+          ),
+        ),
+      );
+    }).toList();
+  }
 
   @override
   void initState() { 
     super.initState();
     TagDBHelper().queryAllRows().then((value) {
       setState(() {
+        print("init state");
         for(var item in value){
           _tags.add(item[TagDBHelper.name]);
         }
 
         _tags = _tags.toSet().toList();
-        _dropDownMenuItems = getMenuItems(_tags);
-        _currentSelection = getInitialTag();        
+        _dropDownMenuItems = getMenuItems(_tags);    
       });
     });
   }
 
-  String getInitialTag(){
-    var result = "";
-    if(_tags.length > 0)
-      result = _tags[0];
-
-    return result;
-  }
-
   @override
   Widget build(BuildContext context) {
-    
+
     final primaryColor = Theme.of(context).primaryColor;
     final secondaryColor = Theme.of(context).backgroundColor;
     final hintColor = Theme.of(context).hintColor;
@@ -67,10 +77,10 @@ class _CreateFilterFormState extends State<CreateFilterForm> {
                   child: Text(
                     "Create New Filter",
                     style: TextStyle(
-                      color: Colors.lightBlue,
+                      color: primaryColor,
                       fontSize: 24,
                     ),
-                  ),         
+                  ),
                 ),
                 Form(
                   key: formKey,            
@@ -79,12 +89,12 @@ class _CreateFilterFormState extends State<CreateFilterForm> {
                       TextFormField(
                         controller: titleController,
                         style: TextStyle(
-                          color: Colors.lightBlue,
+                          color: primaryColor,
                           decoration: TextDecoration.none
                         ),
                         decoration: InputDecoration(
-                          labelStyle: TextStyle(color: Colors.lightBlue),
-                          hintStyle: TextStyle(color: Colors.lightBlue[100]),
+                          labelStyle: TextStyle(color: primaryColor),
+                          hintStyle: TextStyle(color: hintColor),
                           labelText: "Filter Title",
                           hintText: "Enter a title for the filter",
                           enabledBorder: underLineBorder,
@@ -99,9 +109,7 @@ class _CreateFilterFormState extends State<CreateFilterForm> {
                           return null;
                         },
                       ),
-
-                      // TODO: remove items from list when selected and add them to a section
-                      // below showing chosen tags                  
+              
                       DropdownButtonFormField<String>(
                         decoration: InputDecoration(
                           contentPadding: EdgeInsetsGeometry.lerp(EdgeInsets.all(0), EdgeInsets.all(1), 10),
@@ -110,14 +118,21 @@ class _CreateFilterFormState extends State<CreateFilterForm> {
                           errorBorder: underLineBorder,
                           focusedErrorBorder: underLineBorder
                         ),
-                        value: _currentSelection,
+                        hint: Text("Select Tags to filter on"),
                         items: _dropDownMenuItems,
                         onChanged: (String value) {
                           setState(() {
-                            print(value);
+                            _tagsToFilterOn.add(value);
+                            _dropDownMenuItems.removeWhere((menuItem) => menuItem.value == value);
                           });
                         },
                       ),
+
+                      Padding(
+                        padding: EdgeInsets.all(22),
+                      ),
+                      
+                      Tag().getTagWidgets(_tagsToFilterOn),
                     ],
                   ),
                 ),
@@ -130,14 +145,19 @@ class _CreateFilterFormState extends State<CreateFilterForm> {
         width: double.infinity,
         height: 40,
         child: MaterialButton(
-          color: Colors.lightBlue,
-          textColor: Colors.white,
+          color: primaryColor,
+          textColor: secondaryColor,
           onPressed: () {
             if(formKey.currentState.validate()){
+              var filterRow = {
+                FilterDbHelper.name : titleController.value.text
+              };
+
+              filterDbHelper.insertWithTags(filterRow, _tagsToFilterOn);
 
               titleController.clear();
               Navigator.pop(context);
-            };
+            }
           },
           child: Text(
             "Submit"
@@ -145,21 +165,5 @@ class _CreateFilterFormState extends State<CreateFilterForm> {
         ),
       ),
     );
-  }
-
-  List<DropdownMenuItem> getMenuItems(List<String> list){
-    print("Inside getMenuItems");
-    return list.map((String item){
-      return DropdownMenuItem(
-        value: item,
-        child: Text(
-          item,
-          style: TextStyle(
-            color: Colors.lightBlue,
-            fontSize: 18,
-          ),
-        ),
-      );
-    }).toList();
   }
 }

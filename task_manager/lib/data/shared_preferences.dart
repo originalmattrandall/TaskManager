@@ -5,6 +5,7 @@ class UserSettingsPreferences{
   final String _defaultFilter = "defaultFilter";
   final String _archiveBeforeDelete = "archiveBeforeDelete";
   final String _turnOffNotifications = "turnOffNotifications";
+  final String _currentFilter = "currentFilter";
 
   Future<bool> getArchiveBeforeDelete() async{
     final SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -40,5 +41,17 @@ class UserSettingsPreferences{
     final SharedPreferences preferences = await SharedPreferences.getInstance();
 
     return preferences.setInt(_defaultFilter, value);
+  }
+
+    Future<String> getCurrentFilter() async{
+    final SharedPreferences preferences = await SharedPreferences.getInstance();
+
+    return preferences.getString(_currentFilter) ?? "No Filter Found";
+  }
+
+  Future<bool> setCurrentFilter(String value) async {
+    final SharedPreferences preferences = await SharedPreferences.getInstance();
+
+    return preferences.setString(_currentFilter, value);
   }
 }

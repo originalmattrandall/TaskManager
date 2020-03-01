@@ -1,6 +1,8 @@
+import 'package:task_manager/data/resources/databasehelpers/filter_db_helper.dart';
 import 'package:task_manager/data/resources/databasehelpers/tags_db_helper.dart';
 import 'package:task_manager/data/resources/databasehelpers/task_tag_db_helper.dart';
 
+import 'filter_tag_db_helper.dart';
 import 'listitem_db_helper.dart';
 import 'reminder_db_helper.dart';
 import 'task_db_helper.dart';
@@ -13,7 +15,7 @@ import 'package:path_provider/path_provider.dart';
 
 class DBHelper{
     static final _databaseName = ".db";
-    static final _databaseVersion = 2;
+    static final _databaseVersion = 6;
 
     DBHelper._privateConstructor();
     static final DBHelper instance = DBHelper._privateConstructor();
@@ -42,7 +44,6 @@ class DBHelper{
 
     /// Creates all the tables for the database
     Future _onCreate(Database db, int version) async{
-      // Creates the task table
       await db.execute('''
         CREATE TABLE IF NOT EXISTS ${TaskDBHelper.tableName} (
           ${TaskDBHelper.id} INTEGER PRIMARY KEY,
@@ -58,7 +59,6 @@ class DBHelper{
         )
       ''');
 
-      // Creates the task list items table
       await db.execute('''
         CREATE TABLE IF NOT EXISTS ${ListItemDBHelper.tableName} (
           ${ListItemDBHelper.id} INTEGER PRIMARY KEY,
@@ -68,7 +68,6 @@ class DBHelper{
         )
       ''');
 
-      // Creates the table for the priority levels
       await db.execute('''
         CREATE TABLE IF NOT EXISTS ${PriorityDBHelper.tableName} (
           ${PriorityDBHelper.id} INTEGER PRIMARY KEY,
@@ -88,7 +87,6 @@ class DBHelper{
         )
       ''');
 
-      // Creates the Tags table
       await db.execute('''
         CREATE TABLE IF NOT EXISTS ${TagDBHelper.tableName} (
           ${TagDBHelper.id} INTEGER PRIMARY KEY,
@@ -101,6 +99,27 @@ class DBHelper{
           ${TaskTagDbHelper.id} INTEGER PRIMARY KEY,
           ${TaskTagDbHelper.taskId} INTEGER,
           ${TaskTagDbHelper.tagId} INTEGER
+        )
+      ''');
+
+      await db.execute('''
+        CREATE TABLE IF NOT EXISTS ${FilterDbHelper.tableName} (
+          ${FilterDbHelper.id} INTEGER PRIMARY KEY,
+          ${FilterDbHelper.name} TEXT,
+          ${FilterDbHelper.description} TEXT
+        )
+      ''');
+
+      await db.execute('''
+        INSERT INTO ${FilterDbHelper.tableName} (${FilterDbHelper.name}, ${FilterDbHelper.description})
+        VALUES('All Tasks', 'Every Task in the task table');
+      ''');
+
+      await db.execute('''
+        CREATE TABLE IF NOT EXISTS ${FilterTagDbHelper.tableName} (
+          ${FilterTagDbHelper.id} INTEGER PRIMARY KEY,
+          ${FilterTagDbHelper.tagId} INTEGER,
+          ${FilterTagDbHelper.filterId} INTEGER
         )
       ''');
     }
@@ -127,8 +146,16 @@ class DBHelper{
         DROP TABLE IF EXISTS ${TagDBHelper.tableName};
       ''');
 
-            await db.execute('''
+      await db.execute('''
         DROP TABLE IF EXISTS ${TaskTagDbHelper.tableName};
+      ''');
+
+      await db.execute('''
+        DROP TABLE IF EXISTS ${FilterDbHelper.tableName};
+      ''');
+
+      await db.execute('''
+        DROP TABLE IF EXISTS ${FilterTagDbHelper.tableName};
       ''');
 
       _onCreate(db, _databaseVersion);

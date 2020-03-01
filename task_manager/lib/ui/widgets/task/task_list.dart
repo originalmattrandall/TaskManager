@@ -6,10 +6,10 @@ import 'package:task_manager/ui/widgets/task/taskcard/single_task_slidable.dart'
 class TaskList extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
-    taskBloc.fetchAllTasks(); // Used to load the initial list
+    taskBloc.fetchAllTasksByTags(""); // Used to load the initial list
     return Material(
       child: StreamBuilder(
-        stream: taskBloc.allTasks, // TODO: Change this to be based on the filter
+        stream: taskBloc.allTasks,
         builder: (context, AsyncSnapshot<List<TaskModel>> snapshot){
           if(snapshot.hasData){
             return buildList(context, snapshot);

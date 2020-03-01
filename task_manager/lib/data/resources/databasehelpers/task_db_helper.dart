@@ -1,6 +1,9 @@
 import 'package:task_manager/data/models/task.dart';
+import 'package:task_manager/data/resources/databasehelpers/filter_db_helper.dart';
+import 'package:task_manager/data/resources/databasehelpers/filter_tag_db_helper.dart';
 import 'package:task_manager/data/resources/databasehelpers/tags_db_helper.dart';
 import 'package:task_manager/data/resources/databasehelpers/task_tag_db_helper.dart';
+import 'package:task_manager/data/shared_preferences.dart';
 import 'db_helper.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -76,6 +79,64 @@ class TaskDBHelper{
       }
 
       return tasks;
+    }
+
+    Future<List<TaskModel>> queryByIds(List<int> ids) async{
+      final db = await DBHelper.instance.database;
+      var result = await db.query(
+        tableName,
+        where: 'id IN (${ids.join(',')})'
+        //whereArgs: ids
+      );
+
+      return List.generate(result.length, (i){
+        return TaskModel(
+          id: result[i][id],
+          groupId: result[i][groupId],
+          listId: result[i][listId],
+          priorityId: result[i][priorityId],
+          name: result[i][name],
+          description: result[i][description],
+          hasList: result[i][hasList],
+          hasReminder: result[i][hasReminder],
+          isComplete: result[i][isComplete],
+          isArchived: result[i][isArchived],
+        );
+      });
+    }
+
+    Future<List<TaskModel>> queryAllRowsByFilter(String filterName) async {
+      var filterDb = new FilterDbHelper();
+      var filterTagDb = new FilterTagDbHelper();
+      var taskTagDb = new TaskTagDbHelper();
+      var filterId = -1;
+
+      var tagIds = new List<int>();
+      var taskIds = new List<int>();
+
+      if(filterName == "All Tasks" || filterName == "" || filterName == null)
+        return queryAllRows();
+
+      await filterDb.queryByName(filterName).then((value) => filterId = value.id);
+
+      if(filterId >= 0)
+        await filterTagDb.queryByFilterId(filterId).then(
+          (value){
+            for(var item in value){
+              tagIds.add(item["${FilterTagDbHelper.tagId}"]);
+            }
+          }
+        );
+
+      if(tagIds.length > 0)
+        await taskTagDb.queryByTagIds(tagIds).then(
+          (value) {
+            for(var item in value)
+              taskIds.add(item["${TaskTagDbHelper.taskId}"]);
+          }
+        );
+
+      return queryByIds(taskIds);
     }
 
     // Updates a row in the database where the id is set in the model class

@@ -14,6 +14,11 @@ class TaskBloc{
     _taskFetcher.sink.add(taskModel);
   }
 
+  fetchAllTasksByTags(String filterName) async {
+    List<TaskModel> taskModel = await _repository.getAllRowsByFilter(filterName);
+    _taskFetcher.sink.add(taskModel);
+  }
+
   Future<int> insertSingleTask(TaskModel task) async {
     var id = await _repository.insertSingleTask(task);
     fetchAllTasks();

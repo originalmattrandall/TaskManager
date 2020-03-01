@@ -1,14 +1,14 @@
 import 'package:sqflite/sqflite.dart';
 import 'db_helper.dart';
 
-class TaskTagDbHelper{
-  static final tableName = "task_tag";
+class FilterTagDbHelper{
+  static final tableName = "filter_tag";
 
   // Column Names for the Task table
   static final id = "id";
-  static final taskId = "task_id";
   static final tagId = "tag_id";
-
+  static final filterId = "filter_id";
+  
   // Reference to our single dbhelper
   final dbHelper = DBHelper.instance;
 
@@ -22,24 +22,16 @@ class TaskTagDbHelper{
     Database db = await dbHelper.database;
     return await db.query(
       tableName,
-      where: "$taskId = ?",
+      where: "$tagId = ?",
       whereArgs: [id]
     );
   }
 
-    Future<List<Map<String, dynamic>>> queryByTagIds(List<int> ids) async{
-    final db = await dbHelper.database;
-    return db.query(
-      tableName,
-      where: '$tagId IN (${ids.join(',')})'
-    );
-  }
-
-  Future<List<Map<String, dynamic>>> queryByTagId(int id) async{
-    final db = await dbHelper.database;
+  Future<List<Map<String, dynamic>>> queryByFilterId(int id) async{
+    Database db = await dbHelper.database;
     return await db.query(
       tableName,
-      where: "$tagId = ?",
+      where: "$filterId = ?",
       whereArgs: [id]
     );
   }
@@ -48,5 +40,10 @@ class TaskTagDbHelper{
   Future<List<Map<String, dynamic>>> queryAllRows() async {
     Database db = await dbHelper.database;
     return await db.query(tableName);
+  }
+
+  Future<void> clearDatabase() async {
+    final db = await dbHelper.database;
+    await db.delete(tableName);
   }
 }
