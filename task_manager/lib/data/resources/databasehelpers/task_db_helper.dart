@@ -34,75 +34,28 @@ class TaskDBHelper{
 
     // Returns all of the rows in the database
     Future<List<TaskModel>> queryAllRows() async {
-      var taskTagDbHelper = new TaskTagDbHelper();
-      var tagDbHelper = new TagDBHelper();
       var tasks = new List<TaskModel>();
-      var tagIdsToSearch = new List<int>();
-
       Database db = await DBHelper.instance.database;
-      final List<Map<String, dynamic>> dbTasks = await db.query(tableName);
+      
+      final List<Map<String, dynamic>> result = await db.query(tableName);
 
-      for(var task in dbTasks){
-
-        var newTask = new TaskModel(
-          id: task[id],
-          groupId: task[groupId],
-          listId: task[listId],
-          priorityId: task[priorityId],
-          name: task[name],
-          description: task[description],
-          hasList: task[hasList],
-          hasReminder: task[hasReminder],
-          isComplete: task[isComplete],
-          isArchived: task[isArchived],
-        );
-
-        newTask.tags = new List<String>();
-
-        final List<Map<String, dynamic>> dbTaskTags = await taskTagDbHelper.queryByTaskId(task[id]);
-
-        for(var tag in dbTaskTags){
-          tagIdsToSearch.add(tag["tag_id"]);
-        }
-
-        var tags = await tagDbHelper
-          .queryByIds(tagIdsToSearch);
-        tagIdsToSearch.clear(); // This is to make sure no other tags get added to the next Task
-
-        tags.forEach(
-          (row) {
-            newTask.tags.add(row[TagDBHelper.name]);
-          }
-        );
-
-        tasks.add(newTask);
-      }
+      await buildTasksAndTags(result).then((value) => tasks = value);
 
       return tasks;
     }
 
     Future<List<TaskModel>> queryByIds(List<int> ids) async{
       final db = await DBHelper.instance.database;
+      var tasks = new List<TaskModel>();
+
       var result = await db.query(
         tableName,
         where: 'id IN (${ids.join(',')})'
-        //whereArgs: ids
       );
 
-      return List.generate(result.length, (i){
-        return TaskModel(
-          id: result[i][id],
-          groupId: result[i][groupId],
-          listId: result[i][listId],
-          priorityId: result[i][priorityId],
-          name: result[i][name],
-          description: result[i][description],
-          hasList: result[i][hasList],
-          hasReminder: result[i][hasReminder],
-          isComplete: result[i][isComplete],
-          isArchived: result[i][isArchived],
-        );
-      });
+      await buildTasksAndTags(result).then((value) => tasks = value);
+
+      return tasks;
     }
 
     Future<List<TaskModel>> queryAllRowsByFilter(String filterName) async {
@@ -150,5 +103,49 @@ class TaskDBHelper{
     Future<int> delete(int idToDelete) async {
       Database db = await DBHelper.instance.database;
       return await db.delete(tableName, where: '$id = ?', whereArgs: [idToDelete]);
+    }
+
+    Future<List<TaskModel>> buildTasksAndTags(List<Map<String, dynamic>> rows) async{
+      final taskTagDbHelper = new TaskTagDbHelper();
+      final tagDbHelper = new TagDBHelper();
+      var tasks = new List<TaskModel>();
+      var tagIdsToSearch = new List<int>();
+
+      for(var row in rows){
+        var newTask = new TaskModel(
+          id: row[id],
+          groupId: row[groupId],
+          listId: row[listId],
+          priorityId: row[priorityId],
+          name: row[name],
+          description: row[description],
+          hasList: row[hasList],
+          hasReminder: row[hasReminder],
+          isComplete: row[isComplete],
+          isArchived: row[isArchived],
+        );
+
+        newTask.tags = new List<String>();
+
+        final List<Map<String, dynamic>> dbTaskTags = await taskTagDbHelper.queryByTaskId(row[id]);
+
+        for(var tag in dbTaskTags){
+          tagIdsToSearch.add(tag["tag_id"]);
+        }
+
+        var tags = await tagDbHelper
+          .queryByIds(tagIdsToSearch);
+        tagIdsToSearch.clear(); // This is to make sure no other tags get added to the next Task
+
+        tags.forEach(
+          (row) {
+            newTask.tags.add(row[TagDBHelper.name]);
+          }
+        );
+
+        tasks.add(newTask);
+      }
+
+      return tasks;
     }
 }
