@@ -14,9 +14,15 @@ class TaskBloc{
     _taskFetcher.sink.add(taskModel);
   }
 
-  insertSingleTask(TaskModel task) async {
-    await _repository.insertSingleTask(task);
+  fetchAllTasksByFilter(String filterName) async {
+    List<TaskModel> taskModel = await _repository.getAllRowsByFilter(filterName);
+    _taskFetcher.sink.add(taskModel);
+  }
+
+  Future<int> insertSingleTask(TaskModel task) async {
+    var id = await _repository.insertSingleTask(task);
     fetchAllTasks();
+    return id;
   }
 
   updateSingleTask(Map<String, dynamic> row) async {
@@ -26,6 +32,11 @@ class TaskBloc{
 
   deleteSingleTask(int id) async {
     await _repository.deleteSingleTask(id);
+    fetchAllTasks();
+  }
+
+  deleteAssociatedTags(int id) async {
+    await _repository.deleteAssociatedTags(id);
     fetchAllTasks();
   }
 
