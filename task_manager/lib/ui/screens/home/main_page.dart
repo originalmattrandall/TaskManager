@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:task_manager/data/bloc/filter_bloc.dart';
-import 'package:task_manager/data/bloc/task_bloc.dart';
-import 'package:task_manager/data/models/filter.dart';
-import 'package:task_manager/data/resources/databasehelpers/filter_db_helper.dart';
-import 'package:task_manager/data/resources/databasehelpers/filter_tag_db_helper.dart';
+import 'package:task_manager/data/resources/databasehelpers/tags_db_helper.dart';
 import 'package:task_manager/data/resources/databasehelpers/task_db_helper.dart';
-import 'package:task_manager/data/shared_preferences.dart';
+import 'package:task_manager/data/resources/databasehelpers/task_tag_db_helper.dart';
 import 'package:task_manager/ui/widgets/filter/filter_list.dart';
 import 'package:task_manager/ui/widgets/general/primary_fab.dart';
 import 'package:task_manager/ui/widgets/task/task_list.dart';
@@ -20,8 +16,10 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  final taskTagDbHelper = new TaskTagDbHelper();
+
   @override
-  Widget build(BuildContext context) {    
+  Widget build(BuildContext context) { 
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(

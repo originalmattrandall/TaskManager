@@ -14,7 +14,7 @@ class TaskBloc{
     _taskFetcher.sink.add(taskModel);
   }
 
-  fetchAllTasksByTags(String filterName) async {
+  fetchAllTasksByFilter(String filterName) async {
     List<TaskModel> taskModel = await _repository.getAllRowsByFilter(filterName);
     _taskFetcher.sink.add(taskModel);
   }
@@ -32,6 +32,11 @@ class TaskBloc{
 
   deleteSingleTask(int id) async {
     await _repository.deleteSingleTask(id);
+    fetchAllTasks();
+  }
+
+  deleteAssociatedTags(int id) async {
+    await _repository.deleteAssociatedTags(id);
     fetchAllTasks();
   }
 

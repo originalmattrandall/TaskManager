@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:task_manager/data/models/task.dart';
 import 'package:task_manager/data/bloc/task_bloc.dart';
+import 'package:task_manager/data/resources/databasehelpers/task_tag_db_helper.dart';
 import 'package:task_manager/ui/widgets/task/taskcard/single_task_slidable.dart';
 
 class TaskList extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
-    taskBloc.fetchAllTasksByTags(""); // Used to load the initial list
+    taskBloc.fetchAllTasksByFilter(""); // Used to load the initial list
     return Material(
       child: StreamBuilder(
         stream: taskBloc.allTasks,

@@ -123,11 +123,10 @@ class TaskDBHelper{
           hasReminder: row[hasReminder],
           isComplete: row[isComplete],
           isArchived: row[isArchived],
+          tags: new List<String>()
         );
 
-        newTask.tags = new List<String>();
-
-        final List<Map<String, dynamic>> dbTaskTags = await taskTagDbHelper.queryByTaskId(row[id]);
+        final List<Map<String, dynamic>> dbTaskTags = await taskTagDbHelper.queryByTaskId(newTask.id);
 
         for(var tag in dbTaskTags){
           tagIdsToSearch.add(tag["tag_id"]);

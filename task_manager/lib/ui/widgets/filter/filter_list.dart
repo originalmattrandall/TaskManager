@@ -30,7 +30,7 @@ class _FilterListState extends State<FilterList> {
             onChanged: (String selectedFilter){
               setState(() {
                 _currentFilter = selectedFilter;
-                taskBloc.fetchAllTasksByTags(selectedFilter);
+                taskBloc.fetchAllTasksByFilter(selectedFilter);
               });
             },
           );

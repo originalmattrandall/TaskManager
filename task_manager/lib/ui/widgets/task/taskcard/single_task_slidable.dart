@@ -36,7 +36,10 @@ class _SlidableSingleTaskState extends State<SlidableSingleTask> {
               Icons.delete, 
               color: Colors.blue,
             ),
-            onTap: () => taskBloc.deleteSingleTask(widget.task.id),
+            onTap: () {
+                taskBloc.deleteSingleTask(widget.task.id);
+                taskBloc.deleteAssociatedTags(widget.task.id);
+              },
           ),
         ],
       ),

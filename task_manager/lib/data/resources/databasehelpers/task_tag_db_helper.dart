@@ -13,12 +13,21 @@ class TaskTagDbHelper{
   final dbHelper = DBHelper.instance;
 
   // Inserts a row and returns the inserted rows id.
-  Future<int> insert(Map<String, dynamic> row) async{
+  Future<int> insert(Map<String, dynamic> row) async {
     Database db = await dbHelper.database;
     return await db.insert(tableName, row);
   }
 
-  Future<List<Map<String, dynamic>>> queryByTaskId(int id) async{
+  Future<void> deleteAllByTaskId(int id) async {
+    final db = await dbHelper.database;
+    await db.delete(
+      tableName,
+      where: "$taskId = ?",
+      whereArgs: [id]
+    );
+  }
+
+  Future<List<Map<String, dynamic>>> queryByTaskId(int id) async {
     Database db = await dbHelper.database;
     return await db.query(
       tableName,
@@ -31,7 +40,7 @@ class TaskTagDbHelper{
     final db = await dbHelper.database;
     return db.query(
       tableName,
-      where: '$tagId IN (${ids.join(',')})'
+      where: "$tagId IN (${ids.join(',')})"
     );
   }
 

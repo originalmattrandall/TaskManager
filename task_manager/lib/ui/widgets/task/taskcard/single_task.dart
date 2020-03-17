@@ -30,7 +30,7 @@ class _SingleTaskState extends State<SingleTask> {
               Container(
                 child: IconButton(
                   onPressed: (){
-                    setState(() {
+                    setState((){
                       taskCompleted = !taskCompleted;
                       Map<String, dynamic> row = {
                         TaskDBHelper.id : widget.task.id,
@@ -91,7 +91,7 @@ class _SingleTaskState extends State<SingleTask> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: widget.task.tags != null && widget.task.tags.length > 0 
-                    ? Tag().getTagWidgets(widget.task.tags) 
+                    ? Tag().getTagWidgets(widget.task.tags)
                     : Text(""),
                   // TODO: the Empty Text widget creates empty space, fix this
                 )

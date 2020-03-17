@@ -16,20 +16,31 @@ class TagDBHelper{
     final db = await dbHelper.database;
 
     int length = 0;
-    await queryRowsByName(row["name"])
-    .then(
-      (value) {
-        length = value.length;
-      }
-    );
+    await queryRowsByName(row[name])
+      .then(
+        (value) {
+          length = value.length;
+        }
+      );
 
     if(length > 0){
-      return db.update(
+      var updatedId = 0;
+
+      await db.update(
         tableName, 
         row,
-        where: "name = ?",
-        whereArgs: [row["name"]]
+        where: "$name = ?",
+        whereArgs: [row[name]]
+      ).then(
+        (value) async {
+          await queryRowsByName(row[name]).then(
+            (value){
+              updatedId = value[0][id];
+            }
+          );
+        }
       );
+      return updatedId;
     }
     else{
       return db.insert(tableName, row);
