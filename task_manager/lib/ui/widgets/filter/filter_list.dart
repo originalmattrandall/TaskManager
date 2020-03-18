@@ -47,10 +47,10 @@ class _FilterListState extends State<FilterList> {
         value: item,
         child: Text(
           item,
-          style: TextStyle(
-            color: Theme.of(context).primaryColor,
-            fontSize: 18,
-          ),
+          // style: TextStyle(
+          //   color: Theme.of(context).primaryColor,
+          //   fontSize: 18,
+          // ),
         ),
       );
     }).toList();

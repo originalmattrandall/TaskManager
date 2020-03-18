@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:task_manager/routes.dart';
+import 'package:task_manager/ui/themes/theme_model.dart';
 
 class PrimaryFab extends StatefulWidget {
   final Function() onPressed;
   final String toolTip;
   final IconData icon;
 
-  PrimaryFab({Key key, this.onPressed, this.toolTip, this.icon}) : super(key: key);
+  PrimaryFab({Key key, this.onPressed, this.toolTip, this.icon})
+      : super(key: key);
 
   _PrimaryFabState createState() => _PrimaryFabState();
 }
 
-class _PrimaryFabState extends State<PrimaryFab> with SingleTickerProviderStateMixin{
+class _PrimaryFabState extends State<PrimaryFab>
+    with SingleTickerProviderStateMixin {
   bool isOpened = false;
   AnimationController _animationController;
   Animation<double> _animateIcon;
@@ -19,18 +23,19 @@ class _PrimaryFabState extends State<PrimaryFab> with SingleTickerProviderStateM
   Curve _curve = Curves.easeOut;
   double _fabHeight = 56.0;
 
+  Color _primaryColor;
+  Color _backgroundColor;
+
   @override
   initState() {
     _animationController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 500))
           ..addListener(() {
-            setState(() {
-            });
+            setState(() {});
           });
 
     _animateIcon =
         Tween<double>(begin: 0.0, end: 1.0).animate(_animationController);
-
 
     _translateButton = Tween<double>(
       begin: _fabHeight,
@@ -47,13 +52,21 @@ class _PrimaryFabState extends State<PrimaryFab> with SingleTickerProviderStateM
   }
 
   @override
-  dispose(){
+  void didChangeDependencies() {
+    _primaryColor = Provider.of<ThemeModel>(context).currentTheme.primaryColor;
+    _backgroundColor =
+        Provider.of<ThemeModel>(context).currentTheme.backgroundColor;
+    super.didChangeDependencies();
+  }
+
+  @override
+  dispose() {
     _animationController.dispose();
     super.dispose();
   }
 
-  animate(){
-    if(!isOpened){
+  animate() {
+    if (!isOpened) {
       _animationController.forward();
     } else {
       _animationController.reverse();
@@ -61,67 +74,65 @@ class _PrimaryFabState extends State<PrimaryFab> with SingleTickerProviderStateM
     isOpened = !isOpened;
   }
 
-  Widget newTask(){
+  Widget newTask() {
     return Container(
       child: FloatingActionButton(
-        backgroundColor: Theme.of(context).primaryColor,
-        onPressed: () =>  Navigator.pushNamed(context, Routes.createTask),
+        backgroundColor: _primaryColor,
+        onPressed: () => Navigator.pushNamed(context, Routes.createTask),
         tooltip: 'Create a new todo item',
-        child: Icon(
-          Icons.library_add,
-          color: Colors.white
-          ),
         mini: true,
         heroTag: 'NewTaskButton',
-      )
+        child: Icon(
+          Icons.library_add,
+          color: _backgroundColor,
+        ),
+      ),
     );
   }
 
-  Widget newFilter(){
+  Widget newFilter() {
     return Container(
       child: FloatingActionButton(
-        backgroundColor: Theme.of(context).primaryColor,
-        onPressed: () =>  Navigator.pushNamed(context, Routes.createFilter),
+        backgroundColor: _primaryColor,
+        onPressed: () => Navigator.pushNamed(context, Routes.createFilter),
         tooltip: 'Create a new filter',
+        mini: true,
         child: Icon(
           Icons.library_books,
-          color: Colors.white,
-          ),
-        mini: true,
-        heroTag: 'NewFilterButton',
-      )
+          color: _backgroundColor,
+        ),
+      ),
     );
   }
 
-  Widget userSettings(){
+  Widget userSettings() {
     return Container(
       child: FloatingActionButton(
-        backgroundColor: Theme.of(context).primaryColor,
-        onPressed: () =>  Navigator.pushNamed(context, Routes.userSettings),
+        backgroundColor: _primaryColor,
+        onPressed: () => Navigator.pushNamed(context, Routes.userSettings),
         tooltip: 'Go to user settings',
-        child: Icon(
-          Icons.settings,
-          color: Colors.white,
-        ),
-        
         mini: true,
         heroTag: 'UserSettingsButton',
-      )
+        child: Icon(
+          Icons.settings,
+          color: _backgroundColor,
+        ),
+      ),
     );
   }
 
-  Widget toggle(){
+  Widget toggle() {
     return Container(
       child: FloatingActionButton(
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: _primaryColor,
         onPressed: animate,
         tooltip: 'Open/Close Menu',
+        heroTag: 'NewToggleButton',
         child: AnimatedIcon(
           icon: AnimatedIcons.menu_close,
           progress: _animateIcon,
-          color: Colors.white,
+          color: _backgroundColor,
         ),
-        heroTag: 'NewToggleButton',
       ),
     );
   }
@@ -132,32 +143,19 @@ class _PrimaryFabState extends State<PrimaryFab> with SingleTickerProviderStateM
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Transform(
-          transform: Matrix4.translationValues(
-            0, 
-            _translateButton.value * 2.54, 
-            0.0
-          ),
+          transform:
+              Matrix4.translationValues(0, _translateButton.value * 2.54, 0.0),
           child: newTask(),
         ),
-
         Transform(
           transform: Matrix4.translationValues(
-            0.0, 
-            _translateButton.value * 1.65,
-            0.0
-          ),
+              0.0, _translateButton.value * 1.65, 0.0),
           child: newFilter(),
         ),
-
         Transform(
-          transform: Matrix4.translationValues(
-            0.0,
-            _translateButton.value,
-            0
-          ),
+          transform: Matrix4.translationValues(0.0, _translateButton.value, 0),
           child: userSettings(),
         ),
-
         toggle(),
       ],
     );

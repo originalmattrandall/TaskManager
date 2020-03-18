@@ -13,18 +13,17 @@ class _CreateTaskState extends State<CreateTask> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          iconTheme: IconThemeData(
-            color: Colors.grey,
-          ),
+          // iconTheme: IconThemeData(
+          //   color: Colors.grey,
+          // ),
           title: Text(
               "Back to List",
-              style: TextStyle(
-                color: Colors.grey,
-                fontSize: 12,
-              )
+              // style: TextStyle(
+              //   color: Colors.grey,
+              //   fontSize: 12,
+              // )
             ),
-          elevation: 0.0,    
-          backgroundColor: Colors.white,
+          elevation: 0.0,
         ),
         body: CreateTaskForm(),
         ),

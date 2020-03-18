@@ -15,7 +15,7 @@ import 'package:path_provider/path_provider.dart';
 
 class DBHelper{
     static final _databaseName = ".db";
-    static final _databaseVersion = 7;
+    static final _databaseVersion = 8;
 
     DBHelper._privateConstructor();
     static final DBHelper instance = DBHelper._privateConstructor();

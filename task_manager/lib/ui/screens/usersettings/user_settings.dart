@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:task_manager/data/shared_preferences.dart';
+import 'package:task_manager/ui/themes/theme_model.dart';
 import 'package:task_manager/ui/widgets/usersettings/settings_switch.dart';
 
 class UserSettings extends StatefulWidget {
@@ -9,50 +11,48 @@ class UserSettings extends StatefulWidget {
 }
 
 class _UserSettingsState extends State<UserSettings> {
-
   UserSettingsPreferences _userPreferences = new UserSettingsPreferences();
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(        
+      child: Scaffold(
         appBar: AppBar(
           iconTheme: IconThemeData(
             color: Colors.grey,
           ),
+          elevation: 0.0,
           title: Text(
-              "User Settings",
-              style: TextStyle(
-                color: Colors.grey,
-                fontSize: 12,
-              )
-            ),
-          elevation: 0.0,    
-          backgroundColor: Colors.white,
-        ),
-        body: Column(
-            children: [ 
-              // SettingsSwitch(
-              //   title: "Archive Tasks Before Deleting",
-              //   future: _userPreferences.getArchiveBeforeDelete(),
-              //   function: (value) async {
-              //     setState(() {
-              //       _userPreferences.setArchiveBeforeDelete(value);
-              //     });
-              //   },
-              // ),
-              // SettingsSwitch(
-              //   title: "Turn Off Notifications",
-              //   future: _userPreferences.getTurnOffNotifications(),
-              //   function: (value) async {
-              //     setState(() {
-              //       _userPreferences.setTurnOffNotifications(value);
-              //     });
-              //   },
-              // ),
-            ],
+            "User Settings",
           ),
         ),
+        body: Column(
+          children: [
+            SettingsSwitch(
+              title: "Dark Mode",
+              future: _userPreferences.getDarkMode(),
+              function: (value) {
+                _userPreferences.setDarkMode(value);
+                Provider.of<ThemeModel>(context, listen: false).toggleTheme();
+              },
+            ),
+            // SettingsSwitch(
+            //   title: "Archive Tasks Before Deleting",
+            //   future: _userPreferences.getArchiveBeforeDelete(),
+            //   function: (value) async {
+            //       _userPreferences.setArchiveBeforeDelete(value);
+            //   },
+            // ),
+            // SettingsSwitch(
+            //   title: "Turn Off Notifications",
+            //   future: _userPreferences.getTurnOffNotifications(),
+            //   function: (value) async {
+            //       _userPreferences.setTurnOffNotifications(value);
+            //   },
+            // ),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -5,8 +5,6 @@ import 'package:task_manager/data/resources/databasehelpers/tags_db_helper.dart'
 import 'package:task_manager/data/resources/databasehelpers/task_tag_db_helper.dart';
 import 'package:task_manager/ui/widgets/tag/tag.dart';
 
-// TODO: Create a method to generate the input decoration repeated in this class
-
 class CreateTaskForm extends StatefulWidget {
   CreateTaskForm({Key key}) : super(key: key);
 
@@ -14,7 +12,6 @@ class CreateTaskForm extends StatefulWidget {
 }
 
 class _CreateTaskFormState extends State<CreateTaskForm> {
-
   final _formKey = GlobalKey<FormState>();
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
@@ -35,29 +32,15 @@ class _CreateTaskFormState extends State<CreateTaskForm> {
 
   @override
   Widget build(BuildContext context) {
-
     final primaryColor = Theme.of(context).primaryColor;
-    final secondaryColor = Theme.of(context).backgroundColor;
-    final hintColor = Theme.of(context).hintColor;
-    
-    final double outerContainerWidth = MediaQuery.of(context).size.width*0.86;
+    final backgroundColor = Theme.of(context).backgroundColor;
 
-    var underLineBorder = UnderlineInputBorder(
-      borderSide: BorderSide(
-        color: primaryColor,
-      )
-    );
+    final double outerContainerWidth = MediaQuery.of(context).size.width * 0.86;
 
-    var inputDecororation = (String label, String hint) => new InputDecoration(
-      labelStyle: TextStyle(color: primaryColor),
-      hintStyle: TextStyle(color: hintColor),
-      labelText: label,
-      hintText: hint,
-      enabledBorder: underLineBorder,
-      focusedBorder: underLineBorder,
-      errorBorder: underLineBorder,
-      focusedErrorBorder: underLineBorder
-    );
+    var inputDecoration = (String label, String hint) => new InputDecoration(
+          labelText: label,
+          hintText: hint,
+        );
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -71,22 +54,24 @@ class _CreateTaskFormState extends State<CreateTaskForm> {
                   child: Text(
                     "Create a New Task",
                     style: TextStyle(
-                      color: primaryColor,
                       fontSize: 24,
                     ),
-                  ),            
+                  ),
                 ),
+
                 Form(
-                  key: _formKey,            
-                  child: Column(          
+                  key: _formKey,
+                  child: Column(
                     children: [
                       TextFormField(
                         controller: _titleController,
                         style: TextStyle(
-                          color: primaryColor,
-                          decoration: TextDecoration.none
+                          decoration: TextDecoration.none,
                         ),
-                        decoration: inputDecororation("Title", "Title of the Task"),
+                        decoration: inputDecoration(
+                          "Title",
+                          "Title of the Task",
+                        ),
                         validator: (value) {
                           if (value.isEmpty) {
                             return "-_- Just add a title...";
@@ -104,10 +89,12 @@ class _CreateTaskFormState extends State<CreateTaskForm> {
                         maxLines: 6,
                         controller: _descriptionController,
                         style: TextStyle(
-                          color: primaryColor,
-                          decoration: TextDecoration.none
+                          decoration: TextDecoration.none,
                         ),
-                        decoration: inputDecororation("Description", "Description of the task"),
+                        decoration: inputDecoration(
+                          "Description",
+                          "Description of the task",
+                        ),
                         validator: (value) {
                           if (value.isEmpty) {
                             return "This will help you remember what to do";
@@ -126,26 +113,29 @@ class _CreateTaskFormState extends State<CreateTaskForm> {
                             flex: 2,
                             child: TextField(
                               controller: _tagListController,
-                              decoration: inputDecororation("Tags", "Dont forget to click Add Tag"),
+                              decoration: inputDecoration(
+                                "Tags",
+                                "Dont forget to click Add Tag",
+                              ),
                             ),
                           ),
-
                           Expanded(
                             flex: 1,
                             child: FlatButton(
-                              child: Text(
-                                "Add Tag",
-                                style: TextStyle(
-                                  color: secondaryColor
-                                ),
-                              ),
                               color: primaryColor,
-                              onPressed: (){
+                              onPressed: () {
                                 setState(() {
-                                  tagsForThisTask.add(_tagListController.value.text);
+                                  tagsForThisTask
+                                      .add(_tagListController.value.text);
                                   _tagListController.clear();
                                 });
                               },
+                              child: Text(
+                                "Add Tag",
+                                style: TextStyle(
+                                  color: backgroundColor
+                                ),
+                              ),
                             ),
                           ),
                         ],
@@ -165,15 +155,14 @@ class _CreateTaskFormState extends State<CreateTaskForm> {
           ),
         ),
       ),
-      bottomNavigationBar: SizedBox(                 
+      bottomNavigationBar: SizedBox(
         width: double.infinity,
         height: 40,
         child: MaterialButton(
           color: primaryColor,
-          textColor: secondaryColor,
+          textColor: backgroundColor,
           onPressed: () {
-            if(_formKey.currentState.validate()){
-
+            if (_formKey.currentState.validate()) {
               TaskModel insertThisTask = TaskModel(
                 name: _titleController.text,
                 description: _descriptionController.text,
@@ -182,22 +171,17 @@ class _CreateTaskFormState extends State<CreateTaskForm> {
               var taskResult = taskBloc.insertSingleTask(insertThisTask);
 
               taskResult.then((id) {
+                for (var tag in tagsForThisTask) {
+                  if (tag.isNotEmpty) {
+                    var tagRow = {TagDBHelper.name: tag};
 
-                for(var tag in tagsForThisTask){
-                  if(tag.isNotEmpty){
-                    var tagRow = {
-                      TagDBHelper.name : tag
-                    };
-
-                    _tagDbHelper.upsert(tagRow).then(
-                      (value) {
-                        var taskTagRow = {
-                          TaskTagDbHelper.tagId : value,
-                          TaskTagDbHelper.taskId : id
-                        };
-                        _tagTaskDbHelper.insert(taskTagRow);
-                      }
-                    );
+                    _tagDbHelper.upsert(tagRow).then((value) {
+                      var taskTagRow = {
+                        TaskTagDbHelper.tagId: value,
+                        TaskTagDbHelper.taskId: id
+                      };
+                      _tagTaskDbHelper.insert(taskTagRow);
+                    });
                   }
                 }
 
@@ -207,9 +191,7 @@ class _CreateTaskFormState extends State<CreateTaskForm> {
               });
             }
           },
-          child: Text(
-            "Submit"
-          ),
+          child: Text("Submit"),
         ),
       ),
     );
