@@ -22,17 +22,10 @@ By using a combination of tags a user can create filters to display the desired 
 Ex: While developing this app the tag bug was added to tasks describing the discovered issue. A filter was then created so only those bugs would show up and no other tasks.
     
 ## Current State
-As of right now it is a functional application, Lacks a few of the features that I would say are important but it is in a useable state. Since I'm still learning Flutter/Dart its likely refactoring will be a constant thing for awhile.
-
-Currently reworking the UI as I was not a fan of its original look.
+As of right now it is a functional application and soon to be available on android.
 
 ## Future State
-Going forward the above primary features are where my focus will be. Once they are implemented I will be able to work towards some of the nice to have type features.
-
-## Experience and Knowledge Gained
-**Dart** - The learning curve was not very challanging here as i am mostly a backend developer picking up the dart language was fairly quick to do. Having strong knowledge of C# helped make this learning process smooth.
-
-**Flutter** - The ones responsible for Flutter and its documentation made it such an easy transition for any developer to pick up and understand. My biggest challenge here was not knowing what widgets to use in what scenario, luckily the documentation provides excellent support and examples to help figure this one out. Now to just work on my aweful design skills ;)
+Going forward the above primary features are where my focus will be.
 
 ## Author
 Matthew Randall
