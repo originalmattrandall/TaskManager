@@ -2,7 +2,7 @@
 A very simple to do based application. Used to track your daily tasks or create a shopping list.
 
 ### Why I made this project
-The entire purpose behind this to do app was to learn the Flutter and Dart languages. For learning purposes it was important to incorporate both the need for a database and a reason to utilize the BLoC pattern. 
+This projects purpose is to be used as a method of learning Flutter and Dart. It allows the ability to get hands on with development after researching techniques and ways of doing things. It is likely that many of the features will undergo constant refactoring simply to learn new ways of doing things, or a more proper way of doing a current feature.
 
 ## Features
 ### Primary
@@ -16,10 +16,6 @@ The entire purpose behind this to do app was to learn the Flutter and Dart langu
     * - [ ] Archive before deleting tasks
     * - [x] Dark Mode
     
-### Nice to Haves
-- [ ] Shareable tasks/lists
-- [ ] Color coded priorities
-
 ## Current State
 As of right now it is a functional application, Lacks a few of the features that I would say are important but it is in a useable state. Since I'm still learning Flutter/Dart its likely refactoring will be a constant thing for awhile.
 
