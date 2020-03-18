@@ -6,14 +6,13 @@ The entire purpose behind this to do app was to learn the Flutter and Dart langu
 
 ## Features
 ### Primary
-- [ ] Default filter to view all Groups/Tasks
+- [x] Default filter to view all Groups/Tasks
 - [x] Create Task
-- [ ] Create Groups
 - [ ] Archive Task
 - [x] Delete Task
 - [ ] Update Task
-- [ ] Create Priority
-- [ ] User Settings
+- [x] Create Filter
+- [x] User Settings
     * - [ ] Archive before deleting tasks
     * - [x] Dark Mode
     
