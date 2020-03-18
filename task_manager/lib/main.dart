@@ -1,22 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:task_manager/routes.dart';
+import 'package:task_manager/ui/themes/theme_model.dart';
 
-void main() => runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final preferences = await SharedPreferences.getInstance();
+
+  runApp(
+    ChangeNotifierProvider<ThemeModel>(
+      create: (BuildContext context) => ThemeModel(preferences),
+      child: MyApp(),
+    ),
+  );
+}
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Task Manager',
       initialRoute: '/',
       routes: Routes.routes,
-      theme: ThemeData(
-        primaryColor: Colors.lightBlue,
-        accentColor: Colors.lightBlue[300],
-        backgroundColor: Colors.white,
-        hintColor: Colors.lightBlue[100],
-      ),
+      theme: Provider.of<ThemeModel>(context).currentTheme,
     );
   }
 }

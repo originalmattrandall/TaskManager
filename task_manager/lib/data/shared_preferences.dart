@@ -1,13 +1,14 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-class UserSettingsPreferences{
-
+class UserSettingsPreferences {
   final String _defaultFilter = "defaultFilter";
   final String _archiveBeforeDelete = "archiveBeforeDelete";
   final String _turnOffNotifications = "turnOffNotifications";
   final String _currentFilter = "currentFilter";
+  final String _darkMode = "darkMode";
+  String get darkMode => _darkMode;
 
-  Future<bool> getArchiveBeforeDelete() async{
+  Future<bool> getArchiveBeforeDelete() async {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
 
     return preferences.getBool(_archiveBeforeDelete) ?? false;
@@ -19,7 +20,7 @@ class UserSettingsPreferences{
     return preferences.setBool(_archiveBeforeDelete, value);
   }
 
-  Future<bool> getTurnOffNotifications() async{
+  Future<bool> getTurnOffNotifications() async {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
 
     return preferences.getBool(_turnOffNotifications) ?? false;
@@ -31,7 +32,7 @@ class UserSettingsPreferences{
     return preferences.setBool(_turnOffNotifications, value);
   }
 
-  Future<int> getDefaultFilter() async{
+  Future<int> getDefaultFilter() async {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
 
     return preferences.getInt(_defaultFilter) ?? 0;
@@ -43,7 +44,8 @@ class UserSettingsPreferences{
     return preferences.setInt(_defaultFilter, value);
   }
 
-    Future<String> getCurrentFilter() async{
+  // Current Filter
+  Future<String> getCurrentFilter() async {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
 
     return preferences.getString(_currentFilter) ?? "No Filter Found";
@@ -53,5 +55,18 @@ class UserSettingsPreferences{
     final SharedPreferences preferences = await SharedPreferences.getInstance();
 
     return preferences.setString(_currentFilter, value);
+  }
+
+  // Dark Mode
+  Future<bool> getDarkMode() async {
+    final SharedPreferences preferences = await SharedPreferences.getInstance();
+
+    return preferences.getBool(_darkMode) ?? false;
+  }
+
+  Future<bool> setDarkMode(bool value) async {
+    final SharedPreferences preferences = await SharedPreferences.getInstance();
+
+    return preferences.setBool(_darkMode, value);
   }
 }

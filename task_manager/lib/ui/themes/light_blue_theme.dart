@@ -1,41 +1,87 @@
 import 'package:flutter/material.dart';
 
 ThemeData darkTheme = ThemeData.dark().copyWith(
-  primaryColor: Color(0xff1f655d),
-  accentColor: Color(0xff40bf7a),
+  primaryColor: Color(0xff3c3c3c),
+  accentColor: Colors.lightBlue,
+  backgroundColor: Colors.lightBlue,
+  inputDecorationTheme: InputDecorationTheme(
+    labelStyle: TextStyle(color: Colors.lightBlue),
+    hintStyle: TextStyle(color: Colors.lightBlue[300]),
+    enabledBorder: lightUnderLineBorder,
+    focusedBorder: lightUnderLineBorder,
+    errorBorder: lightUnderLineBorder,
+    focusedErrorBorder: lightUnderLineBorder,
+  ),
+  hintColor: Colors.lightBlue[100],
   textTheme: TextTheme(
-    title: TextStyle(
-      color: Color(0xff40bf7a),
+    body1: TextStyle(
+      color: Colors.lightBlue,
     ),
-    subtitle: TextStyle(color: Colors.white),
     subhead: TextStyle(
-      color: Color(0xff40bf7a),
+      color: Colors.lightBlue,
     ),
-  ),
-  appBarTheme: AppBarTheme(
-    color: Color(0xff1f655d),
-  ),
-);
-
-ThemeData lightTheme = ThemeData.light().copyWith(
-  primaryColor: Colors.orange,
-  accentColor: Colors.cyan,
-  textTheme: TextTheme(
-    title: TextStyle(color: Colors.pink),
-    subtitle: TextStyle(color: Colors.red),
-    subhead: TextStyle(color: Colors.blue),
   ),
   appBarTheme: AppBarTheme(
     textTheme: TextTheme(
       title: TextStyle(
-        color: Colors.pink,
-        fontSize: 18,
+        color: Colors.grey,
         fontWeight: FontWeight.bold,
       ),
-      subtitle: TextStyle(color: Colors.red),
-      subhead: TextStyle(color: Colors.blue),
     ),
-    color: Colors.green,
-    actionsIconTheme: IconThemeData(color: Colors.brown),
+    iconTheme: IconThemeData(
+      color: Colors.grey,
+    ),
+    color: Color(0xff121212),
+  ),
+  scaffoldBackgroundColor: Color(0xff121212),
+  iconTheme: IconThemeData(
+    color: Colors.lightBlue,
+  ),
+  floatingActionButtonTheme: FloatingActionButtonThemeData(
+    elevation: 0,
   ),
 );
+
+ThemeData lightTheme = ThemeData.light().copyWith(
+  primaryColor: Colors.lightBlue,
+  accentColor: Colors.lightBlue[300],
+  backgroundColor: Colors.white,
+  inputDecorationTheme: InputDecorationTheme(
+    labelStyle: TextStyle(color: Colors.lightBlue),
+    hintStyle: TextStyle(color: Colors.lightBlue[300]),
+    enabledBorder: lightUnderLineBorder,
+    focusedBorder: lightUnderLineBorder,
+    errorBorder: lightUnderLineBorder,
+    focusedErrorBorder: lightUnderLineBorder,
+  ),
+  hintColor: Colors.lightBlue[100],
+  textTheme: TextTheme(
+    body1: TextStyle(
+      color: Colors.lightBlue,
+    ),
+    subhead: TextStyle(
+      color: Colors.lightBlue,
+    ),
+  ),
+  appBarTheme: AppBarTheme(
+    textTheme: TextTheme(
+      title: TextStyle(
+        color: Colors.grey,
+        fontWeight: FontWeight.bold,
+      ),
+    ),
+    iconTheme: IconThemeData(
+      color: Colors.grey,
+    ),
+    color: Colors.white,
+  ),
+  scaffoldBackgroundColor: Colors.white,
+  floatingActionButtonTheme: FloatingActionButtonThemeData(
+    elevation: 2,
+  ),
+);
+
+var lightUnderLineBorder = UnderlineInputBorder(
+    borderSide: BorderSide(
+  color: Colors.lightBlue,
+));
