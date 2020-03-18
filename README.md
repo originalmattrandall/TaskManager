@@ -15,6 +15,7 @@ The entire purpose behind this to do app was to learn the Flutter and Dart langu
 - [ ] Create Priority
 - [ ] User Settings
     * - [ ] Archive before deleting tasks
+    * - [x] Dark Mode
     
 ### Nice to Haves
 - [ ] Shareable tasks/lists
