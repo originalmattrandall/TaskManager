@@ -13,6 +13,8 @@ class ThemeModel extends ChangeNotifier {
   ThemeType _themeType;
 
   ThemeModel(this._preferences) {
+    // Shared Preferences is null on initial launch of the app, so this defaults to false and loads the light mode.
+    // Will this work for different color themes?
     var darkModeOn = _preferences.getBool(_userSettings.darkMode) ?? false;
     
     if(darkModeOn){
@@ -20,8 +22,6 @@ class ThemeModel extends ChangeNotifier {
     } else{
       currentTheme = initializeLightMode();
     }
-    // currentTheme =
-    //     _preferences.getBool(_userSettings.darkMode) ? initializeDarkMode() : initializeLightMode();
   }
 
   toggleTheme() {
