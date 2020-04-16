@@ -76,6 +76,9 @@ ThemeData lightTheme = ThemeData.light().copyWith(
     color: Colors.white,
   ),
   scaffoldBackgroundColor: Colors.white,
+  iconTheme: IconThemeData(
+    color: Colors.lightBlue,
+  ),
   floatingActionButtonTheme: FloatingActionButtonThemeData(
     elevation: 2,
   ),

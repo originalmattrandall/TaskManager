@@ -18,7 +18,12 @@ class SlidableSingleTask extends StatefulWidget {
 class _SlidableSingleTaskState extends State<SlidableSingleTask> {
   @override
   Widget build(BuildContext context) {
+
+    final accentColor = Theme.of(context).accentColor;
+    final scaffoldBackgroundColor = Theme.of(context).scaffoldBackgroundColor;
+
     return Container(
+      color: scaffoldBackgroundColor,
       child: Slidable(
         actionPane: SlidableDrawerActionPane(),
         actionExtentRatio: 0.16,     
@@ -30,11 +35,12 @@ class _SlidableSingleTaskState extends State<SlidableSingleTask> {
         ),
         secondaryActions: [
           IconSlideAction(
-            foregroundColor: Colors.blue,
+            color: scaffoldBackgroundColor,
+            foregroundColor: accentColor,
             caption: "Delete",
             iconWidget: Icon(
-              Icons.delete, 
-              color: Colors.blue,
+              Icons.delete,
+              color: accentColor,
             ),
             onTap: () {
                 taskBloc.deleteSingleTask(widget.task.id);

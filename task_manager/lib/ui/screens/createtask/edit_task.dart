@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:task_manager/data/models/task.dart';
 import 'package:task_manager/ui/widgets/task/create_task_form.dart';
 
-class CreateTask extends StatefulWidget {
-  CreateTask({Key key}) : super(key: key);
 
-  _CreateTaskState createState() => _CreateTaskState();
-}
+class EditTask extends StatelessWidget {
+  const EditTask({Key key}) : super(key: key);
 
-class _CreateTaskState extends State<CreateTask> {
+  // final TaskModel task;
+
   @override
   Widget build(BuildContext context) {
+
+    final TaskModel task = ModalRoute.of(context).settings.arguments;
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -20,8 +22,8 @@ class _CreateTaskState extends State<CreateTask> {
           elevation: 0.0,
         ),
         body: CreateTaskForm(
-          title: "Create a New Task",
-          taskModel: new TaskModel(),
+          title: "Edit Task",
+          taskModel: task,
         ),
       ),
     );

@@ -25,9 +25,9 @@ class TaskList extends StatelessWidget {
   }
 
   Widget buildList(
-    BuildContext context, AsyncSnapshot<List<TaskModel>> snapshot) {
-
-    var backgroundColor = Provider.of<ThemeModel>(context).currentTheme.scaffoldBackgroundColor;
+      BuildContext context, AsyncSnapshot<List<TaskModel>> snapshot) {
+    var backgroundColor =
+        Provider.of<ThemeModel>(context).currentTheme.scaffoldBackgroundColor;
 
     return Container(
       color: backgroundColor,
@@ -42,7 +42,9 @@ class TaskList extends StatelessWidget {
               scrollDirection: Axis.vertical,
               itemCount: snapshot.data.length,
               itemBuilder: (BuildContext context, int index) {
-                return SlidableSingleTask(task: snapshot.data[index]);
+                return SlidableSingleTask(
+                  task: snapshot.data[index],
+                );
               },
             ),
     );

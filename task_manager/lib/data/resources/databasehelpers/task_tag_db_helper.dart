@@ -36,7 +36,7 @@ class TaskTagDbHelper{
     );
   }
 
-    Future<List<Map<String, dynamic>>> queryByTagIds(List<int> ids) async{
+  Future<List<Map<String, dynamic>>> queryByTagIds(List<int> ids) async{
     final db = await dbHelper.database;
     return db.query(
       tableName,

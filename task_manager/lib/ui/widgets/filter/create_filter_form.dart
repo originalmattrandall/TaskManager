@@ -10,20 +10,19 @@ class CreateFilterForm extends StatefulWidget {
 }
 
 class _CreateFilterFormState extends State<CreateFilterForm> {
-  
   var _tags = new List<String>();
   var _dropDownMenuItems = List<DropdownMenuItem<String>>();
   var _tagsToFilterOn = List<String>();
   var filterDbHelper = new FilterDbHelper();
 
-  List<DropdownMenuItem<String>> getMenuItems(List<String> list){
-    return list.map((String item){
+  List<DropdownMenuItem<String>> getMenuItems(List<String> list) {
+    return list.map((String item) {
       return DropdownMenuItem(
         value: item,
         child: Text(
           item,
           style: TextStyle(
-            color: Colors.lightBlue,
+            // color: Colors.lightBlue,
             fontSize: 18,
           ),
         ),
@@ -32,42 +31,35 @@ class _CreateFilterFormState extends State<CreateFilterForm> {
   }
 
   @override
-  void initState() { 
+  void initState() {
     super.initState();
     TagDBHelper().queryAllRows().then((value) {
       setState(() {
         print("init state");
-        for(var item in value){
+        for (var item in value) {
           _tags.add(item[TagDBHelper.name]);
         }
 
         _tags = _tags.toSet().toList();
-        _dropDownMenuItems = getMenuItems(_tags);    
+        _dropDownMenuItems = getMenuItems(_tags);
       });
     });
   }
 
   @override
   Widget build(BuildContext context) {
-
     final primaryColor = Theme.of(context).primaryColor;
     final secondaryColor = Theme.of(context).backgroundColor;
-    final hintColor = Theme.of(context).hintColor;
-
+    final accentColor = Theme.of(context).accentColor;
+    
     final formKey = GlobalKey<FormState>();
     final titleController = TextEditingController();
 
-    var underLineBorder = UnderlineInputBorder(
-      borderSide: BorderSide(
-        color: primaryColor,
-      )
-    );
-
-    final double outerContainerWidth = MediaQuery.of(context).size.width*0.86;
+    final double outerContainerWidth = MediaQuery.of(context).size.width * 0.86;
 
     return Scaffold(
-       body: SingleChildScrollView(
-         child: Center(
+      body: SingleChildScrollView(
+        child: Center(
           child: Container(
             width: outerContainerWidth,
             child: Column(
@@ -77,30 +69,21 @@ class _CreateFilterFormState extends State<CreateFilterForm> {
                   child: Text(
                     "Create New Filter",
                     style: TextStyle(
-                      color: primaryColor,
                       fontSize: 24,
                     ),
                   ),
                 ),
                 Form(
-                  key: formKey,            
-                  child: Column(          
+                  key: formKey,
+                  child: Column(
                     children: [
                       TextFormField(
                         controller: titleController,
                         style: TextStyle(
-                          color: primaryColor,
-                          decoration: TextDecoration.none
-                        ),
+                            decoration: TextDecoration.none),
                         decoration: InputDecoration(
-                          labelStyle: TextStyle(color: primaryColor),
-                          hintStyle: TextStyle(color: hintColor),
                           labelText: "Filter Title",
                           hintText: "Enter a title for the filter",
-                          enabledBorder: underLineBorder,
-                          focusedBorder: underLineBorder,
-                          errorBorder: underLineBorder,
-                          focusedErrorBorder: underLineBorder
                         ),
                         validator: (value) {
                           if (value.isEmpty) {
@@ -109,29 +92,29 @@ class _CreateFilterFormState extends State<CreateFilterForm> {
                           return null;
                         },
                       ),
-              
                       DropdownButtonFormField<String>(
                         decoration: InputDecoration(
-                          contentPadding: EdgeInsetsGeometry.lerp(EdgeInsets.all(0), EdgeInsets.all(1), 10),
-                          enabledBorder: underLineBorder,
-                          focusedBorder: underLineBorder,
-                          errorBorder: underLineBorder,
-                          focusedErrorBorder: underLineBorder
+                          contentPadding: EdgeInsetsGeometry.lerp(
+                              EdgeInsets.all(0), EdgeInsets.all(1), 10),
                         ),
-                        hint: Text("Select Tags to filter on"),
+                        hint: Text(
+                          "Select Tags to filter on",
+                          style: TextStyle(
+                            color: accentColor,
+                          ),
+                        ),
                         items: _dropDownMenuItems,
                         onChanged: (String value) {
                           setState(() {
                             _tagsToFilterOn.add(value);
-                            _dropDownMenuItems.removeWhere((menuItem) => menuItem.value == value);
+                            _dropDownMenuItems.removeWhere(
+                                (menuItem) => menuItem.value == value);
                           });
                         },
                       ),
-
                       Padding(
                         padding: EdgeInsets.all(22),
                       ),
-                      
                       Tag().getTagWidgets(_tagsToFilterOn),
                     ],
                   ),
@@ -140,18 +123,16 @@ class _CreateFilterFormState extends State<CreateFilterForm> {
             ),
           ),
         ),
-       ),
-       bottomNavigationBar: SizedBox(                 
+      ),
+      bottomNavigationBar: SizedBox(
         width: double.infinity,
         height: 40,
         child: MaterialButton(
           color: primaryColor,
           textColor: secondaryColor,
           onPressed: () {
-            if(formKey.currentState.validate()){
-              var filterRow = {
-                FilterDbHelper.name : titleController.value.text
-              };
+            if (formKey.currentState.validate()) {
+              var filterRow = {FilterDbHelper.name: titleController.value.text};
 
               filterDbHelper.insertWithTags(filterRow, _tagsToFilterOn);
 
@@ -159,9 +140,7 @@ class _CreateFilterFormState extends State<CreateFilterForm> {
               Navigator.pop(context);
             }
           },
-          child: Text(
-            "Submit"
-          ),
+          child: Text("Submit"),
         ),
       ),
     );

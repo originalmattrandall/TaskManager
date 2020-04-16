@@ -32,10 +32,11 @@ class Tag extends StatelessWidget {
 
   Widget getTagWidgets(List<String> tags) {
     return Wrap(
-        direction: Axis.horizontal,
-        alignment: WrapAlignment.start,
-        spacing: 5,
-        runSpacing: 5,
-        children: tags.map((tag) => Tag(value: tag)).toList());
+      direction: Axis.horizontal,
+      alignment: WrapAlignment.start,
+      spacing: 5,
+      runSpacing: 5,
+      children: tags.map((tag) => Tag(value: tag)).toList(),
+    );
   }
 }

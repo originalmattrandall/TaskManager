@@ -3,7 +3,6 @@ import 'package:task_manager/data/resources/databasehelpers/filter_db_helper.dar
 import 'package:task_manager/data/resources/databasehelpers/filter_tag_db_helper.dart';
 import 'package:task_manager/data/resources/databasehelpers/tags_db_helper.dart';
 import 'package:task_manager/data/resources/databasehelpers/task_tag_db_helper.dart';
-import 'package:task_manager/data/shared_preferences.dart';
 import 'db_helper.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -25,11 +24,19 @@ class TaskDBHelper{
     // Inserts a row and returns the inserted rows id.
     Future<int> insert(TaskModel task) async{
       Database db = await DBHelper.instance.database;
+      // do an upsert for the task here
       return await db.insert(
         tableName, 
         task.toMap(),
         conflictAlgorithm: ConflictAlgorithm.replace
       );
+    }
+
+    // Updates a row in the database where the id is set in the model class
+    Future<int> update(TaskModel task) async {
+      Database db = await DBHelper.instance.database;
+      await db.update(tableName, task.toMap(), where: '$id = ?', whereArgs: [task.id]);
+      return task.id;
     }
 
     // Returns all of the rows in the database
@@ -90,13 +97,6 @@ class TaskDBHelper{
         );
 
       return queryByIds(taskIds);
-    }
-
-    // Updates a row in the database where the id is set in the model class
-    Future<int> update(Map<String, dynamic> row) async {
-      Database db = await DBHelper.instance.database;
-      int idOfRow = row[id];
-      return await db.update(tableName, row, where: '$id = ?', whereArgs: [idOfRow]);
     }
 
     // Delete a row from the database

@@ -6,7 +6,10 @@ import 'package:task_manager/data/resources/databasehelpers/task_tag_db_helper.d
 import 'package:task_manager/ui/widgets/tag/tag.dart';
 
 class CreateTaskForm extends StatefulWidget {
-  CreateTaskForm({Key key}) : super(key: key);
+  final String title;
+  final TaskModel taskModel;
+
+  CreateTaskForm({Key key, this.title, this.taskModel}) : super(key: key);
 
   _CreateTaskFormState createState() => _CreateTaskFormState();
 }
@@ -22,6 +25,16 @@ class _CreateTaskFormState extends State<CreateTaskForm> {
 
   var tagsForThisTask = new List<String>();
 
+  var tagsFuture;
+
+  @override
+  void initState() {
+    if (widget.taskModel.id != null) {
+      tagsFuture = getTags();
+    }
+    super.initState();
+  }
+
   @override
   void dispose() {
     _titleController.dispose();
@@ -32,6 +45,12 @@ class _CreateTaskFormState extends State<CreateTaskForm> {
 
   @override
   Widget build(BuildContext context) {
+    // If the task passed in is not null, populate the text boxes
+    if (widget.taskModel.id != null) {
+      _titleController.text = widget.taskModel.name;
+      _descriptionController.text = widget.taskModel.description;
+    }
+
     final primaryColor = Theme.of(context).primaryColor;
     final backgroundColor = Theme.of(context).backgroundColor;
 
@@ -52,13 +71,12 @@ class _CreateTaskFormState extends State<CreateTaskForm> {
                 Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Create a New Task",
+                    widget.title, // "Create a New Task",
                     style: TextStyle(
                       fontSize: 24,
                     ),
                   ),
                 ),
-
                 Form(
                   key: _formKey,
                   child: Column(
@@ -132,9 +150,7 @@ class _CreateTaskFormState extends State<CreateTaskForm> {
                               },
                               child: Text(
                                 "Add Tag",
-                                style: TextStyle(
-                                  color: backgroundColor
-                                ),
+                                style: TextStyle(color: backgroundColor),
                               ),
                             ),
                           ),
@@ -143,6 +159,12 @@ class _CreateTaskFormState extends State<CreateTaskForm> {
 
                       Padding(
                         padding: EdgeInsets.only(bottom: 30),
+                      ),
+
+                      tagsListBuilder(),
+
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 5),
                       ),
 
                       // TODO: Improvement opportunity - Make the tags removable when creating a task
@@ -163,12 +185,21 @@ class _CreateTaskFormState extends State<CreateTaskForm> {
           textColor: backgroundColor,
           onPressed: () {
             if (_formKey.currentState.validate()) {
+              var taskResult;
+
               TaskModel insertThisTask = TaskModel(
                 name: _titleController.text,
                 description: _descriptionController.text,
               );
 
-              var taskResult = taskBloc.insertSingleTask(insertThisTask);
+              if (widget.taskModel.id != null) {
+                print(widget.taskModel.id);
+                insertThisTask.id = widget.taskModel.id;
+
+                taskResult = taskBloc.updateSingleTask(insertThisTask);
+              } else {
+                taskResult = taskBloc.insertSingleTask(insertThisTask);
+              }
 
               taskResult.then((id) {
                 for (var tag in tagsForThisTask) {
@@ -180,6 +211,7 @@ class _CreateTaskFormState extends State<CreateTaskForm> {
                         TaskTagDbHelper.tagId: value,
                         TaskTagDbHelper.taskId: id
                       };
+                      print(taskTagRow);
                       _tagTaskDbHelper.insert(taskTagRow);
                     });
                   }
@@ -195,5 +227,41 @@ class _CreateTaskFormState extends State<CreateTaskForm> {
         ),
       ),
     );
+  }
+
+  Widget tagsListBuilder() {
+    if (widget.taskModel.id != null) {
+      return FutureBuilder(
+        future: tagsFuture,
+        builder: (BuildContext context, snapshot) {
+          if (snapshot.hasData) {
+            return Tag().getTagWidgets(snapshot.data);
+          } else {
+            return LinearProgressIndicator();
+          }
+        },
+      );
+    } else {
+      return Container();
+    }
+  }
+
+  Future getTags() async {
+    List<String> tags = new List<String>();
+
+    _tagTaskDbHelper.queryByTaskId(widget.taskModel.id).then((value) {
+      var ids = new List<int>();
+      for (var tag in value) {
+        ids.add(tag[TaskTagDbHelper.tagId]);
+      }
+
+      _tagDbHelper.queryByIds(ids).then((value) {
+        for (var tag in value) {
+          tags.add(tag[TagDBHelper.name]);
+        }
+      });
+    });
+
+    return tags;
   }
 }

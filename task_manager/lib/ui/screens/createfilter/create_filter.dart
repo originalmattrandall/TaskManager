@@ -24,8 +24,7 @@ class _CreateFilterState extends State<CreateFilter> {
                 fontSize: 12,
               )
             ),
-          elevation: 0.0,    
-          backgroundColor: Colors.white,
+          elevation: 0.0,
         ),
         body: CreateFilterForm(),
         ),

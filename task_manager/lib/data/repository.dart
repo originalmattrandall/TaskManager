@@ -22,7 +22,7 @@ class Repository{
 
   Future<int> insertSingleTask(TaskModel task) => taskdbHelper.insert(task);
 
-  Future<void> updateSingleTask(Map<String, dynamic> row) => taskdbHelper.update(row);
+  Future<int> updateSingleTask(TaskModel task) => taskdbHelper.update(task);
 
   // Tags
   final tagdbHelper = new TagDBHelper();
